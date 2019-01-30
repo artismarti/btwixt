@@ -41,7 +41,7 @@ class SignInForm extends React.Component {
         <br />
         <TextField
           id="passwordInput"
-          label="Password"
+          label="password"
           value={password}
           onChange={handleChange}
           margin="normal"
