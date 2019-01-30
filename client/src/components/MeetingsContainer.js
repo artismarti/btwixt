@@ -1,5 +1,6 @@
 import React from 'react'
 import Meeting from './Meeting'
+import { Container } from 'semantic-ui-react'
 
 import API from '../API'
 
@@ -9,7 +10,16 @@ class MeetingsContainer extends React.Component {
   }
 
   getMeetings() {
-    API.getMeetings().then(meetings => meetings && this.setState({ meetings }))
+    API.getMeetings().then(data => this.createMeetingObject(data))
+  }
+
+  createMeetingObject = data => {
+    let meetings = data.map(d => {
+      d.meeting.users = d.users
+      d.meeting.userMeetings = d.user_meetings
+      return d.meeting
+    })
+    this.setState({ meetings: [...meetings] })
   }
 
   componentDidMount() {
@@ -25,19 +35,18 @@ class MeetingsContainer extends React.Component {
     const { meetings } = this.state
 
     return (
-      <div style={this.style} className="user-list">
-        {meetings.length === 0 && (
-          <div>
-            <p>No meetings yet.</p> <button>Create one?</button>
-          </div>
-        )}
-        {meetings.map(meeting => (
-          <div>
-            <h3>Here are your meetings:</h3>
+      <Container fluid>
+        <div style={this.style} className="user-list">
+          {meetings.length === 0 && (
+            <div>
+              <p>No meetings yet.</p> <button>Create one?</button>
+            </div>
+          )}
+          {meetings.map(meeting => (
             <Meeting key={meeting.id} meeting={meeting} />
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Container>
     )
   }
 }
