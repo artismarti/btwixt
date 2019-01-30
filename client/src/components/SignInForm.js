@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 
 import API from '../API'
 
@@ -27,37 +29,30 @@ class SignInForm extends React.Component {
     const { handleChange, handleSubmit } = this
 
     return (
-      <Form>
-        <FormGroup>
-          <Label for="emailInput">Email</Label>
-          <Input
-            id="emailInput"
-            value={email}
-            onChange={handleChange}
-            margin="normal"
-            name="email"
-            placeholder="email address"
-          />
-          <br />
-          <Label for="passwordInput">Password</Label>
-          <Input
-            id="passwordInput"
-            value={password}
-            onChange={handleChange}
-            margin="normal"
-            name="password"
-            type="password"
-            placeholder="password"
-          />
-          <br />
-          <FormText color="muted">
-            Enter your details to view your meetings
-          </FormText>
-        </FormGroup>
+      <div>
+        <TextField
+          id="emailInput"
+          label="email"
+          value={email}
+          onChange={handleChange}
+          margin="normal"
+          name="email"
+        />
+        <br />
+        <TextField
+          id="passwordInput"
+          label="Password"
+          value={password}
+          onChange={handleChange}
+          margin="normal"
+          name="password"
+          type="password"
+        />
+        <br />
         <Button onClick={handleSubmit} variant="contained" color="primary">
           SUBMIT
         </Button>
-      </Form>
+      </div>
     )
   }
 }
