@@ -3,7 +3,7 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 
 import Header from './components/Header'
 import SignInForm from './components/SignInForm'
-import Inventory from './components/Inventory'
+import MeetingsContainer from './components/MeetingsContainer'
 import HomePage from './components/HomePage'
 import PageNotFound from './components/PageNotFound'
 import './App.css'
@@ -56,7 +56,7 @@ class App extends Component {
           <Route
             path="/meetings"
             component={routerProps => (
-              <Inventory {...routerProps} email={email} />
+              <MeetingsContainer {...routerProps} email={email} />
             )}
           />
           <Route component={PageNotFound} />
