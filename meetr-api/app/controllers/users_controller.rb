@@ -55,7 +55,8 @@ class UsersController < ApplicationController
   def get_meetings
     @user = current_user
     if @user
-      render json: @user.meetings
+      render json: @user.meetings.map { |meeting| { :meeting => meeting, :users => meeting.users, :user_meetings => meeting.user_meetings } }
+      # render json: @user.meetings.map { |meeting| { :meeting => meeting, :users => meeting.users } }
     else
       render json: {error: 'Meetings not found.'}
     end
