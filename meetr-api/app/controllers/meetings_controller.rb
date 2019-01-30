@@ -11,12 +11,6 @@ class MeetingsController < ApplicationController
     @meetings = Meeting.where(id: @user_meetings.map {|um| um.meeting_id})
   end
 
-  def get_meetings
-    @user = current_user
-    render json: current_user.meetings
-
-  end
-
   def create
     @users = User.all
     @meeting = Meeting.new(meeting_params(:title, :date_time))
@@ -30,12 +24,6 @@ class MeetingsController < ApplicationController
   def edit
     @users = User.all
     @creator = is_creator
-  end
-
-  def update
-  end
-
-  def destroy
   end
 
   private
