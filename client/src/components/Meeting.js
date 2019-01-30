@@ -40,7 +40,7 @@ const styles = theme => ({
   },
 })
 
-class Item extends React.Component {
+class Meeting extends React.Component {
   state = { expanded: false }
 
   handleExpandClick = () => {
@@ -88,8 +88,8 @@ class Item extends React.Component {
   }
 }
 
-Item.propTypes = {
+Meeting.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(Item)
+export default withStyles(styles)(Meeting)
