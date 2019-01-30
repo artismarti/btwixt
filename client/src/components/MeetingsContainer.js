@@ -1,5 +1,5 @@
 import React from 'react'
-import Item from './Item'
+import Meeting from './Meeting'
 
 import API from '../API'
 
@@ -34,7 +34,7 @@ class MeetingsContainer extends React.Component {
         {meetings.map(meeting => (
           <div>
             <h3>Here are your meetings:</h3>
-            <Item key={meeting.id} meeting={meeting} />
+            <Meeting key={meeting.id} meeting={meeting} />
           </div>
         ))}
       </div>
