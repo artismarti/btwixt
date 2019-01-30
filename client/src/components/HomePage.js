@@ -20,7 +20,7 @@ const HomePage = props => (
     </p>
     <p>
       <Link to="/meetings">
-        <b>Inventory:</b>
+        <b>MeetingsContainer:</b>
       </Link>
       <b>'/meetings'</b>
     </p>

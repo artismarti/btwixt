@@ -3,7 +3,7 @@ import Item from './Item'
 
 import API from '../API'
 
-class Inventory extends React.Component {
+class MeetingsContainer extends React.Component {
   state = {
     meetings: [],
   }
@@ -41,4 +41,4 @@ class Inventory extends React.Component {
     )
   }
 }
-export default Inventory
+export default MeetingsContainer
