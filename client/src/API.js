@@ -5,6 +5,7 @@ class API {
     this.signinURL = this.baseURL + '/signin'
     this.validateURL = this.baseURL + '/validate'
     this.meetingsURL = this.baseURL + '/mymeetings'
+    this.contactsURL = this.baseURL + '/mycontacts'
   }
 
   static signin(user) {
@@ -32,6 +33,12 @@ class API {
 
   static getMeetings() {
     return this.get(this.meetingsURL)
+  }
+
+  static getContacts() {
+    console.log(this.contactsURL)
+
+    return this.get(this.contactsURL)
   }
 }
 
