@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Button, Checkbox, Form } from 'semantic-ui-react'
 
 import API from '../API'
+import { func } from 'prop-types'
 
 class Create extends React.Component {
   state = {
@@ -17,11 +18,14 @@ class Create extends React.Component {
     let contacts = data.map(d => {
       return d.contacts
     })
+    // Filter out duplicates
     let uniqueContacts = Object.values(
       contacts
         .flat()
         .reduce((acc, cur) => Object.assign(acc, { [cur.id]: cur }), {})
     )
+    //  Remove current user from contacts
+    uniqueContacts = uniqueContacts.filter(c => c.email !== this.props.email)
 
     this.setState({ contacts: [...uniqueContacts] })
   }
@@ -36,6 +40,7 @@ class Create extends React.Component {
   }
   render() {
     const { contacts } = this.state
+    const { email } = this.props
     return (
       <React.Fragment>
         <Form size="small">
