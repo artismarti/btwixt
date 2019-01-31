@@ -56,11 +56,9 @@ class UsersController < ApplicationController
   # Get all meeting & user details for all meetings of current user
   def get_meetings
     @user = current_user
-    @meetings = @user.meetings.map { |meeting| { :meeting => 
-      { meeting_details: meeting, users: assemble_user(meeting)
-        }}}
+    @meetings = @user.meetings
     if @user
-      render json: @meetings
+      render json: @meetings, each_serializer: MeetingsInfoSerializer
     else
       render json: {error: 'Meetings not found.'}
     end
@@ -104,20 +102,5 @@ class UsersController < ApplicationController
     params.require(:user).permit(*args)
   end
 
-  def assemble_user(meeting)
-    meeting.users.map{|mu|
-      user_meeting = UserMeeting.find_by(:user_id == mu.id , :meeting_id == meeting.id)
-        {
-          first_name: mu.first_name, 
-          last_name: mu.last_name, 
-          email: mu.email, 
-          guest: mu.guest, 
-          id: mu.id,
-          start_address: user_meeting.start_address,
-          start_latitude: user_meeting.start_latitude,
-          start_longitude: user_meeting.start_longitude,
-          user_status: user_meeting.user_status,
-      }
-    }
-  end
+  
 end

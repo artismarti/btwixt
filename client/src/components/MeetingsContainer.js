@@ -13,8 +13,7 @@ class MeetingsContainer extends React.Component {
   getMeetings() {
     // API.getMeetings().then(data => console.log(data))
     API.getMeetings().then(data => {
-      data = data.flat()
-      this.setState({ meetings: [data] })
+      this.setState({ meetings: data })
     })
   }
 
@@ -29,8 +28,7 @@ class MeetingsContainer extends React.Component {
   }
   render() {
     const { meetings } = this.state
-    let outerArray = meetings
-    console.log(outerArray[0].map(f => f.meeting))
+    const { email } = this.props
 
     return (
       <Container fluid>
@@ -44,7 +42,7 @@ class MeetingsContainer extends React.Component {
             </div>
           )}
           {meetings.map(meeting => (
-            <Meeting key={meeting} meeting={meeting} />
+            <Meeting key={meeting.id} meeting={meeting} email={email} />
           ))}
         </Card.Group>
       </Container>
