@@ -6,6 +6,7 @@ import SignInForm from './components/SignInForm'
 import MeetingsContainer from './components/MeetingsContainer'
 import HomePage from './components/HomePage'
 import PageNotFound from './components/PageNotFound'
+import Create from './components/Create'
 import './App.css'
 import API from './API'
 
@@ -32,7 +33,7 @@ class App extends Component {
     // Validate user
     API.validate().then(data => {
       if (data.error) {
-        history.push('/signin')
+        history.push('/')
       } else {
         this.signin(data.user.email, data.token)
         history.push('/meetings')
@@ -58,6 +59,10 @@ class App extends Component {
             component={routerProps => (
               <MeetingsContainer {...routerProps} email={email} />
             )}
+          />
+          <Route
+            path="/create"
+            component={routerProps => <Create {...routerProps} email={email} />}
           />
           <Route component={PageNotFound} />
         </Switch>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Meeting from './Meeting'
-import { Container } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Container, Button, Card } from 'semantic-ui-react'
 
 import API from '../API'
 
@@ -10,16 +11,11 @@ class MeetingsContainer extends React.Component {
   }
 
   getMeetings() {
-    API.getMeetings().then(data => this.createMeetingObject(data))
-  }
-
-  createMeetingObject = data => {
-    let meetings = data.map(d => {
-      d.meeting.users = d.users
-      d.meeting.userMeetings = d.user_meetings
-      return d.meeting
+    // API.getMeetings().then(data => console.log(data))
+    API.getMeetings().then(data => {
+      data = data.flat()
+      this.setState({ meetings: [data] })
     })
-    this.setState({ meetings: [...meetings] })
   }
 
   componentDidMount() {
@@ -33,19 +29,24 @@ class MeetingsContainer extends React.Component {
   }
   render() {
     const { meetings } = this.state
+    let outerArray = meetings
+    console.log(outerArray[0].map(f => f.meeting))
 
     return (
       <Container fluid>
-        <div style={this.style} className="user-list">
+        <Link to="/create">
+          <Button positive>Create new meeting</Button>
+        </Link>
+        <Card.Group stackable centered>
           {meetings.length === 0 && (
             <div>
               <p>No meetings yet.</p> <button>Create one?</button>
             </div>
           )}
           {meetings.map(meeting => (
-            <Meeting key={meeting.id} meeting={meeting} />
+            <Meeting key={meeting} meeting={meeting} />
           ))}
-        </div>
+        </Card.Group>
       </Container>
     )
   }

@@ -52,13 +52,27 @@ class UsersController < ApplicationController
     end
   end
 
+  
+  # Get all meeting & user details for all meetings of current user
   def get_meetings
     @user = current_user
+    @meetings = @user.meetings.map { |meeting| { :meeting => 
+      { meeting_details: meeting, users: assemble_user(meeting)
+        }}}
     if @user
-      render json: @user.meetings.map { |meeting| { :meeting => meeting, :users => meeting.users, :user_meetings => meeting.user_meetings } }
-      # render json: @user.meetings.map { |meeting| { :meeting => meeting, :users => meeting.users } }
+      render json: @meetings
     else
       render json: {error: 'Meetings not found.'}
+    end
+  end
+
+  # Find all users that have previously been invited by current user
+  def get_contacts
+    @user = current_user
+    if @user
+      render json: @user.meetings.map { |meeting| { :contacts => meeting.users.distinct } }
+    else
+      render json: {error: 'Contacts not found.'}
     end
   end
 
@@ -88,5 +102,22 @@ class UsersController < ApplicationController
 
   def user_params(*args)
     params.require(:user).permit(*args)
+  end
+
+  def assemble_user(meeting)
+    meeting.users.map{|mu|
+      user_meeting = UserMeeting.find_by(:user_id == mu.id , :meeting_id == meeting.id)
+        {
+          first_name: mu.first_name, 
+          last_name: mu.last_name, 
+          email: mu.email, 
+          guest: mu.guest, 
+          id: mu.id,
+          start_address: user_meeting.start_address,
+          start_latitude: user_meeting.start_latitude,
+          start_longitude: user_meeting.start_longitude,
+          user_status: user_meeting.user_status,
+      }
+    }
   end
 end

@@ -9,19 +9,19 @@ const HomePage = props => (
       <Link to="/">
         <b>HomePage:</b>
       </Link>
-      <b>'/'</b>
+      <b> '/'</b>
     </p>
     <p>
       <Link to="/signin">
         <b>SignInForm:</b>
       </Link>
-      <b>'/signin'</b>
+      <b> '/signin'</b>
     </p>
     <p>
-      <Link to="/meetings">
-        <b>MeetingsContainer:</b>
+      <Link to="/create">
+        <b>Create a Meeting:</b>
       </Link>
-      <b>'/meetings'</b>
+      <b> '/create'</b>
     </p>
   </div>
 )
