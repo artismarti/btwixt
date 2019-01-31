@@ -6,7 +6,6 @@ class Meeting extends React.Component {
     return `https://image.maps.api.here.com/mia/1.6/mapview?app_id=***REMOVED***&app_code=***REMOVED***&lat=${lat}&lon=${lng}&vt=0&z=14`
   }
   iconSelector = status => {
-    let icon = ''
     switch (status) {
       case 'invited':
         return <Icon name="help circle" color="grey" />
