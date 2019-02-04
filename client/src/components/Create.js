@@ -8,7 +8,6 @@ import {
   Card,
   Input,
 } from 'semantic-ui-react'
-import moment from 'moment'
 
 import API from '../API'
 
