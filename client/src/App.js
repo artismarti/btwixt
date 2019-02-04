@@ -13,6 +13,7 @@ import API from './API'
 class App extends Component {
   state = {
     email: '',
+    meetings: [],
   }
 
   // When user signs in, change email state
@@ -28,21 +29,29 @@ class App extends Component {
     this.setState({ email: '' })
   }
 
+  getMeetings = () => {
+    API.getMeetings().then(data => {
+      this.setState({ meetings: data })
+    })
+  }
+
   componentDidMount() {
+    const { signin } = this
     const { history } = this.props
     // Validate user
     API.validate().then(data => {
       if (data.error) {
         history.push('/')
       } else {
-        this.signin(data.user.email, data.token)
+        signin(data.user.email, data.token)
         history.push('/meetings')
+        this.getMeetings()
       }
     })
   }
   render() {
-    const { signin, signout } = this
-    const { email } = this.state
+    const { signin, signout, getMeetings } = this
+    const { email, meetings } = this.state
     return (
       <div className="App">
         <Header email={email} signout={signout} />
@@ -57,13 +66,24 @@ class App extends Component {
           <Route
             path="/meetings"
             component={routerProps => (
-              <MeetingsContainer {...routerProps} email={email} />
+              <MeetingsContainer
+                {...routerProps}
+                email={email}
+                getMeetings={getMeetings}
+                meetings={meetings}
+              />
             )}
           />
 
           <Route
             path="/create"
-            component={routerProps => <Create {...routerProps} email={email} />}
+            component={routerProps => (
+              <Create
+                {...routerProps}
+                email={email}
+                getMeetings={getMeetings}
+              />
+            )}
           />
 
           <Route component={PageNotFound} />

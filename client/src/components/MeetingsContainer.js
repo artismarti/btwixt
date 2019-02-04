@@ -3,31 +3,18 @@ import Meeting from './Meeting'
 import { Link } from 'react-router-dom'
 import { Container, Button, Card } from 'semantic-ui-react'
 
-import API from '../API'
-
 class MeetingsContainer extends React.Component {
-  state = {
-    meetings: [],
-  }
-
-  getMeetings() {
-    API.getMeetings().then(data => {
-      this.setState({ meetings: data })
-    })
-  }
-
   componentDidMount() {
     // if a user is not signed in, redirect to sign in
     const { email, history } = this.props
     if (!email) {
       history.push('/signin')
     } else {
-      this.getMeetings()
+      console.log('hi')
     }
   }
   render() {
-    const { meetings } = this.state
-    const { email } = this.props
+    const { email, meetings } = this.props
 
     return (
       <Container fluid>
