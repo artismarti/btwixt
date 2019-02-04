@@ -51,3 +51,6 @@ gem "faker"
 
 # JWT for authentication & authorisation
 gem 'jwt'
+
+# Rest client
+gem 'rest-client'
