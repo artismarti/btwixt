@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  Container,
-  Button,
-  Checkbox,
-  Form,
-  Icon,
-  Card,
-  Input,
-} from 'semantic-ui-react'
+import { Button, Checkbox, Form, Icon, Card, Input } from 'semantic-ui-react'
 
 import API from '../API'
 
@@ -30,6 +22,7 @@ class Create extends React.Component {
   handleChange = event =>
     this.setState({ [event.target.name]: event.target.value })
 
+  // get lat long from API
   getLatLong(data) {
     this.setState(
       {
@@ -42,14 +35,17 @@ class Create extends React.Component {
             'DisplayPosition'
           ]['Longitude'],
       },
+      // then create meeting
       this.createNewMeeting
     )
   }
 
+  // Create New Meeting
   handleSubmit = event => {
     let url = `https://geocoder.api.here.com/6.2/geocode.json?app_id=EUNJEIDbEAKKaUz5IRBj&app_code=nI-30KLhGkA-zFavU7hhYw&searchtext=${
       this.state.start_address
     }`
+    // send start address to get lat long from API
     fetch(url)
       .then(response => response.json())
       .then(data => this.getLatLong(data))
@@ -68,10 +64,12 @@ class Create extends React.Component {
     console.log(meeting)
 
     API.createMeeting(meeting).then(data => {
-      if (data.error) {
-        alert(data.error)
+      if (data) {
+        if (data.error) {
+          alert(data.error)
+        }
       } else {
-        console.log(data)
+        this.props.getMeeting()
       }
     })
   }
