@@ -3,22 +3,50 @@ class MeetingsController < ApplicationController
   before_action :existing_invitees, only:[:edit, :update]
 
   def show
-    @meeting.get_venues(@meeting.midpoint_latitude,@meeting.midpoint_longitude)
+    # @meeting.get_venues(@meeting.midpoint_latitude,@meeting.midpoint_longitude)
   end
 
   def index
-    @user_meetings = UserMeeting.where(user_id: current_user.id)
-    @meetings = Meeting.where(id: @user_meetings.map {|um| um.meeting_id})
+    # @meetings = UserMeeting.find_by(:user_id => current_user)
+		# render json: @meetings
+    # # @user_meetings = UserMeeting.where(user_id: current_user.id)
+    # # @meetings = Meeting.where(id: @user_meetings.map {|um| um.meeting_id})
   end
 
   def create
-    @users = User.all
-    @meeting = Meeting.new(meeting_params(:title, :date_time))
-    if @meeting.save
-      render json: @meeting
-    else
-      render json: { error: 'Could not save meeting'}, status: 400
+    # Current user will get status == "created" in UserMeeting
+    @user = current_user
+
+    # Get or create all guests:
+    @all_guests = params["invitees"].map{ |invitee_email| User.find_or_create_by(:email => invitee_email) }
+
+    @meeting = Meeting.new(:title => params["title"], 
+      :date_time => params["date_time"], 
+      # Make  meeting mid point to be same as creators start lat long
+      :midpoint_latitude => params["latitude"],
+      :midpoint_longitude => params["longitude"])
+
+    if @meeting.valid?
+      @meeting.save
+      # Create the UserMeeting for creator
+      creator_user_meeting = UserMeeting.create!(:user_id => current_user.id, 
+        :meeting_id => @meeting.id, 
+        :user_status => "created", 
+        :start_address => params[:start_address])
+      # Save
+      creator_user_meeting.save
+      #  Create invitee usermeeting records
+        @all_guests.each do |guest|
+        invitee_user_meeting = UserMeeting.create(:user_id => guest.id, 
+          :meeting_id => @meeting.id, 
+          :user_status => "invited",
+          :start_address => params[:start_address])
+        #  Update the invitee start lat long to be the same as the creators start lat long
+        invitee_user_meeting.update!(:start_latitude => creator_user_meeting.start_latitude)
+        invitee_user_meeting.update!(:start_longitude => creator_user_meeting.start_longitude)
+      end
     end
+
   end
 
   def edit
@@ -27,19 +55,9 @@ class MeetingsController < ApplicationController
   end
 
   private
-  def is_creator
-    @user_meetings = UserMeeting.where(meeting_id: @meeting)
-    creator = false
-    @user_meetings.each do |um|
-      if um.user_status == "created" && um.user_id == current_user.id
-        creator = true
-      end
-    end
-    creator
-  end
 
   def find_meeting
-    @meeting = Meeting.find(params[:id])
+    # @meeting = Meeting.find(params[:id])
   end
 
   def existing_invitees
