@@ -46,7 +46,7 @@ class API {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: token },
       body: JSON.stringify(meeting),
-    }).then(data => console.log(data))
+    })
   }
 }
 
