@@ -69,7 +69,7 @@ class Create extends React.Component {
           alert(data.error)
         }
       } else {
-        this.props.getMeeting()
+        this.props.getMeetings()
       }
     })
   }
