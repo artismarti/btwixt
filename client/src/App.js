@@ -60,10 +60,12 @@ class App extends Component {
               <MeetingsContainer {...routerProps} email={email} />
             )}
           />
+
           <Route
             path="/create"
             component={routerProps => <Create {...routerProps} email={email} />}
           />
+
           <Route component={PageNotFound} />
         </Switch>
       </div>
