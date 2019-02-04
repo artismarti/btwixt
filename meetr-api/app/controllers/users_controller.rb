@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def get_contacts
     @user = current_user
     if @user
-      render json: @user.meetings.map { |meeting| { :contacts => meeting.users.distinct } }
+      render json: @user.meetings.map { |meeting| { :contacts => meeting.users } }
     else
       render json: {error: 'Contacts not found.'}
     end
