@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Image, Icon } from 'semantic-ui-react'
+import { Card, Image, Icon, Button } from 'semantic-ui-react'
 import moment from 'moment'
 
 class Meeting extends React.Component {
@@ -17,9 +17,15 @@ class Meeting extends React.Component {
       case 'declined':
         return <Icon name="thumbs down outline" color="red" />
         break
+      case 'created':
+        return <Icon name="user circle" color="blue" />
+        break
       default:
         return <Icon name="help" color="red" />
     }
+  }
+  handleAccept = () => {
+    alert('hi')
   }
   render() {
     const { meeting, email } = this.props
@@ -29,9 +35,14 @@ class Meeting extends React.Component {
         <Card color="orange" key={meeting.id}>
           <Card.Content>
             <Card.Header>
-              {meeting.title}:{' '}
-              {moment(meeting.date_time).format('MMMM Do YYYY, HH:mm')}
+              {meeting.title}:
+              {moment(meeting.date_time)
+                .endOf('day')
+                .fromNow()}
             </Card.Header>
+            <Card.Description>
+              {moment(meeting.date_time).format('MMMM Do YYYY, HH:mm')}
+            </Card.Description>
             <ul>
               Invitees:
               {meeting.users
@@ -44,11 +55,25 @@ class Meeting extends React.Component {
                 ))}
             </ul>
           </Card.Content>
+          <Button.Group>
+            <Button positive onClick={this.handleAccept}>
+              Accept
+            </Button>
+            <Button.Or />
+            <Button negative>Decline</Button>
+          </Button.Group>
+          <Button color="orange">Update Start Location</Button>
           <Image
             src={this.getMap(
               meeting.midpoint_latitude,
               meeting.midpoint_longitude
             )}
+            as="a"
+            size="medium"
+            href="http://google.com"
+            target="_blank"
+            centered
+            bordered
           />
         </Card>
       </React.Fragment>
