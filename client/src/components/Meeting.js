@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Image, Icon } from 'semantic-ui-react'
+import moment from 'moment'
 
 class Meeting extends React.Component {
   getMap = (lat, lng) => {
@@ -27,7 +28,10 @@ class Meeting extends React.Component {
       <React.Fragment>
         <Card color="orange" key={meeting.id}>
           <Card.Content>
-            <Card.Header>{meeting.title}</Card.Header>
+            <Card.Header>
+              {meeting.title}:{' '}
+              {moment(meeting.date_time).format('MMMM Do YYYY, HH:mm')}
+            </Card.Header>
             <ul>
               Invitees:
               {meeting.users
