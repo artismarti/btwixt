@@ -24,7 +24,8 @@ class MeetingsController < ApplicationController
       :date_time => params["date_time"], 
       # Make  meeting mid point to be same as creators start lat long
       :midpoint_latitude => params["latitude"],
-      :midpoint_longitude => params["longitude"]),
+      :midpoint_longitude => params["longitude"])
+      byebug
 
     if @meeting.valid?
       @meeting.save
@@ -32,9 +33,9 @@ class MeetingsController < ApplicationController
       creator_user_meeting = UserMeeting.create!(:user_id => current_user.id, 
         :meeting_id => @meeting.id, 
         :user_status => "created", 
-        :start_address => params[:start_address]),
+        :start_address => params[:start_address],
         :start_latitude => params["latitude"],
-        :start_longitude => params["longitude"]
+        :start_longitude => params["longitude"])
       # Save
       creator_user_meeting.save
       #  Create invitee usermeeting records
@@ -42,14 +43,14 @@ class MeetingsController < ApplicationController
         invitee_user_meeting = UserMeeting.create(:user_id => guest.id, 
           :meeting_id => @meeting.id, 
           :user_status => "invited",
+          #  Update the invitee start lat long to be the same as the creators start lat long
           :start_address => params[:start_address],
           :start_latitude => params["latitude"],
           :start_longitude => params["longitude"])
-        #  Update the invitee start lat long to be the same as the creators start lat long
+        
+        end
       end
     end
-
-  end
 
   def edit
     @users = User.all
