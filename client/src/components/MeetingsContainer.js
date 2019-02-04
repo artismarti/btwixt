@@ -11,7 +11,6 @@ class MeetingsContainer extends React.Component {
   }
 
   getMeetings() {
-    // API.getMeetings().then(data => console.log(data))
     API.getMeetings().then(data => {
       this.setState({ meetings: data })
     })
