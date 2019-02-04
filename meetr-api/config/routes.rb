@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # get meetings
   get 'mymeetings', to: 'users#get_meetings'
 
-  # get meetings
+  # get contacts
   get 'mycontacts', to: 'users#get_contacts'
+
 end
