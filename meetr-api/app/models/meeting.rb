@@ -41,6 +41,7 @@ class Meeting < ApplicationRecord
     "https://image.maps.api.here.com/mia/1.6/mapview?app_id=EUNJEIDbEAKKaUz5IRBj&app_code=nI-30KLhGkA-zFavU7hhYw&lat=#{lat}&lon=#{lng}&vt=0&z=14"
   end
 
+  # Recalculate if someone changes their start location
   def recalculate_midpoint
     self.get_midpoint_lat(self.get_lat_lng_hash)
     self.get_midpoint_lng(self.get_lat_lng_hash)
