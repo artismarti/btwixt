@@ -6,6 +6,7 @@ class API {
     this.validateURL = this.baseURL + '/validate'
     this.meetingsURL = this.baseURL + '/mymeetings'
     this.contactsURL = this.baseURL + '/mycontacts'
+    this.createMeetingURL = this.baseURL + '/meetings'
   }
 
   static signin(user) {
@@ -36,9 +37,16 @@ class API {
   }
 
   static getContacts() {
-    console.log(this.contactsURL)
-
     return this.get(this.contactsURL)
+  }
+
+  static createMeeting(meeting) {
+    const token = localStorage.getItem('token')
+    return fetch(this.createMeetingURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: token },
+      body: JSON.stringify(meeting),
+    }).then(data => console.log(data))
   }
 }
 
