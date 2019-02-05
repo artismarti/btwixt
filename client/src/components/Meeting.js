@@ -9,7 +9,10 @@ import {
   Input,
   Modal,
 } from 'semantic-ui-react'
+
 import API from '../API'
+import Invitees from './Invitees'
+import Venues from './Venues'
 
 class Meeting extends React.Component {
   state = {
@@ -27,26 +30,9 @@ class Meeting extends React.Component {
   getMap = (lat, lng) => {
     return `https://image.maps.api.here.com/mia/1.6/mapview?app_id=***REMOVED***&app_code=***REMOVED***&lat=${lat}&lon=${lng}&vt=0&z=14`
   }
-  iconSelector = status => {
-    switch (status) {
-      case 'invited':
-        return <Icon name="help circle" color="grey" />
-        break
-      case 'accepted':
-        return <Icon name="thumbs up outline" color="green" />
-        break
-      case 'declined':
-        return <Icon name="thumbs down outline" color="red" />
-        break
-      case 'created':
-        return <Icon name="user circle" color="blue" />
-        break
-      default:
-        return <Icon name="help" color="red" />
-    }
-  }
+
   handleAcceptDecline = decision => {
-    const { meeting, email } = this.props
+    const { meeting } = this.props
     let inviteeDecision = {
       meeting: meeting.id,
       decision,
@@ -157,17 +143,12 @@ class Meeting extends React.Component {
                 {meeting.meeting_address}
               </p>
             </Card.Description>
-            <ul>
-              Invitees:
-              {meeting.users
-                .filter(u => u.email !== email)
-                .map(u => (
-                  <p key={u.id}>
-                    {this.iconSelector(u.user_status)}
-                    {u.first_name} {u.last_name}: {u.start_address}
-                  </p>
-                ))}
-            </ul>
+            <Invitees email={email} guests={meeting.users} />
+            <Venues venues={meeting.venues} />
+            Suggested Venues:
+            {meeting.venues.map(v => (
+              <p key={v.id}>{v.name}</p>
+            ))}
           </Card.Content>
 
           {this.showMeetingButtons()}
