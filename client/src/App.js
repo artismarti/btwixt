@@ -20,7 +20,7 @@ class App extends Component {
   // Store user email in local storage
   signin = (email, token) => {
     localStorage.setItem('token', token)
-    this.setState({ email })
+    this.setState({ email }, this.getMeetings())
   }
   // Delete email from state when user signs out
   // Remove user email in local storage
@@ -30,8 +30,11 @@ class App extends Component {
   }
 
   getMeetings = () => {
+    console.log('in app')
     API.getMeetings().then(data => {
-      this.setState({ meetings: data })
+      this.setState({ meetings: data }, () =>
+        this.props.history.push('/meetings')
+      )
     })
   }
 
@@ -44,7 +47,6 @@ class App extends Component {
         history.push('/')
       } else {
         signin(data.user.email, data.token)
-        history.push('/meetings')
         this.getMeetings()
       }
     })
