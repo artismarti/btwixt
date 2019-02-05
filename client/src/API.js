@@ -9,6 +9,7 @@ class API {
     this.createMeetingURL = this.baseURL + '/meetings'
     this.updateInviteeURL = this.baseURL + '/user_meetings/update'
     this.updateMidpointURL = this.baseURL + '/midpoint'
+    this.getVenuesURL = this.baseURL + '/venues'
     this.deleteMeetingURL = this.baseURL + '/meetings/delete'
   }
 
@@ -77,6 +78,10 @@ class API {
       headers: { 'Content-Type': 'application/json', Authorization: token },
       body: JSON.stringify(locationDetails),
     })
+  }
+
+  static getVenues() {
+    return this.get(this.getVenuesURL)
   }
 }
 
