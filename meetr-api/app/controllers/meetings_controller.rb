@@ -1,16 +1,16 @@
 class MeetingsController < ApplicationController
-  before_action :find_meeting, only:[:show, :edit, :update, :destroy, :existing_invitees, :is_creator]
-  before_action :existing_invitees, only:[:edit, :update]
-
   def show
     # @meeting.get_venues(@meeting.midpoint_latitude,@meeting.midpoint_longitude)
   end
 
-  def index
-    # @meetings = UserMeeting.find_by(:user_id => current_user)
-		# render json: @meetings
-    # # @user_meetings = UserMeeting.where(user_id: current_user.id)
-    # # @meetings = Meeting.where(id: @user_meetings.map {|um| um.meeting_id})
+  def destroy
+    @meeting = Meeting.find(params["meeting"])
+    @meeting.destroy
+    if !@meeting
+      render json: {message: "Success"}
+    else
+      render json: {error: "Error"}
+    end
   end
 
   def create
@@ -25,7 +25,6 @@ class MeetingsController < ApplicationController
       # Make  meeting mid point to be same as creators start lat long
       :midpoint_latitude => params["latitude"],
       :midpoint_longitude => params["longitude"])
-      byebug
 
     if @meeting.valid?
       @meeting.save
@@ -40,22 +39,31 @@ class MeetingsController < ApplicationController
       creator_user_meeting.save
       #  Create invitee usermeeting records
         @all_guests.each do |guest|
-        invitee_user_meeting = UserMeeting.create(:user_id => guest.id, 
+          UserMeeting.create(:user_id => guest.id, 
           :meeting_id => @meeting.id, 
           :user_status => "invited",
           #  Update the invitee start lat long to be the same as the creators start lat long
           :start_address => params[:start_address],
           :start_latitude => params["latitude"],
           :start_longitude => params["longitude"])
-        
         end
-      end
     end
-
-  def edit
-    @users = User.all
-    @creator = is_creator
   end
+
+  def update_midpoint
+    @user = current_user.id
+    @meeting = Meeting.find(params["meeting"])
+    @user_meeting = UserMeeting.find_by(
+      :user_id => @user,
+      :meeting_id => @meeting
+      )
+    @user_meeting.update(:start_address => params["startLocation"])
+    @user_meeting.get_lat_lng(params["startLocation"])
+    
+    @meeting.recalculate_midpoint
+    render json: {message: "Updated Midpoint"}
+    
+  end  
 
   private
 
