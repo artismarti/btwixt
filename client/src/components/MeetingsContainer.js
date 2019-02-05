@@ -9,8 +9,6 @@ class MeetingsContainer extends React.Component {
     const { email, history } = this.props
     if (!email) {
       history.push('/signin')
-    } else {
-      console.log('hi')
     }
   }
   render() {
