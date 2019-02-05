@@ -1,5 +1,5 @@
 class Meeting < ApplicationRecord
-  has_many :user_meetings
+  has_many :user_meetings, dependent: :destroy
   has_many :users, through: :user_meetings
   has_many :meeting_venues
   has_many :venues, through: :meeting_venues
@@ -28,7 +28,10 @@ class Meeting < ApplicationRecord
   end
 
   def get_lat_lng_hash
-    @user_meetings = self.user_meetings
+    user_status = ['accepted', 'created', 'invited']
+    @user_meetings = self.user_meetings.select{|um| 
+      user_status.include?(um.user_status)
+    }
     lat_lng = {}
     lats = @user_meetings.map{|um| um.start_latitude}
     lat_lng[:lat] = lats
