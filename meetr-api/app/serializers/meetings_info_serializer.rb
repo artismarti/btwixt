@@ -1,8 +1,16 @@
 class MeetingsInfoSerializer < ActiveModel::Serializer
-  attributes :id, :title, :midpoint_latitude, :midpoint_longitude, :date_time, :users
+  attributes :id, :title, :midpoint_latitude, :midpoint_longitude, :date_time, :meeting_address, :users
+
+  def meeting_address
+    url = "https://reverse.geocoder.api.here.com/6.2/reversegeocode.json?app_id=EUNJEIDbEAKKaUz5IRBj&app_code=nI-30KLhGkA-zFavU7hhYw&mode=retrieveAddresses&prox=#{object.midpoint_latitude},#{object.midpoint_longitude}"
+    response_string = RestClient.get(url)
+    response_hash = JSON.parse(response_string)
+    response_hash["Response"]["View"][0]["Result"][0]["Location"]["Address"]["Label"]
+  end
+
 
   def users
-    object.user_meetings.map{ |um|
+    object.user_meetings.map { |um|
       {
         first_name: um.user.first_name, 
         last_name: um.user.last_name, 
