@@ -64,10 +64,8 @@ class Create extends React.Component {
     console.log(meeting)
 
     API.createMeeting(meeting).then(data => {
-      if (data) {
-        if (data.error) {
-          alert(data.error)
-        }
+      if (data.error) {
+        alert(data.error)
       } else {
         this.props.getMeetings()
       }
