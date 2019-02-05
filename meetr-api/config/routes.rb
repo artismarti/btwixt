@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   # get contacts
   get 'mycontacts', to: 'users#get_contacts'
 
+  # update midpoint
+  patch 'midpoint', to: 'meetings#update_midpoint'
+
 end
