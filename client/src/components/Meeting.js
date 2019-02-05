@@ -145,10 +145,6 @@ class Meeting extends React.Component {
             </Card.Description>
             <Invitees email={email} guests={meeting.users} />
             <Venues venues={meeting.venues} />
-            Suggested Venues:
-            {meeting.venues.map(v => (
-              <p key={v.id}>{v.name}</p>
-            ))}
           </Card.Content>
 
           {this.showMeetingButtons()}
