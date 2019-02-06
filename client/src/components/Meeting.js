@@ -1,4 +1,3 @@
-import moment from 'moment'
 import React from 'react'
 import {
   Button,
@@ -11,6 +10,7 @@ import {
 } from 'semantic-ui-react'
 
 import API from '../API'
+import MeetingDetails from './MeetingDetails'
 import Invitees from './Invitees'
 import Venues from './Venues'
 
@@ -122,27 +122,14 @@ class Meeting extends React.Component {
     return (
       <React.Fragment>
         <Card color="blue" key={meeting.id}>
+          <MeetingDetails
+            key={`${meeting.id}_md`}
+            title={meeting.title}
+            date={meeting.date_time}
+            myAddress={myMeetings.start_address}
+            midpoint={meeting.meeting_address}
+          />
           <Card.Content>
-            <Card.Header>
-              {meeting.title}:
-              {moment(meeting.date_time)
-                .endOf('day')
-                .fromNow()}
-            </Card.Header>
-            <Card.Description>
-              <p>
-                Date: {moment(meeting.date_time).format('MMMM Do YYYY, HH:mm')}
-              </p>
-
-              <p>
-                My Start Location:
-                {myMeetings && myMeetings.start_address}
-              </p>
-              <p>
-                Central Location:
-                {meeting.meeting_address}
-              </p>
-            </Card.Description>
             <Invitees email={email} guests={meeting.users} />
             <Venues venues={meeting.venues} />
           </Card.Content>
