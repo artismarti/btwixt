@@ -7,7 +7,7 @@ class Venues extends React.Component {
     return (
       <Segment raised>
         <List>
-          <Label as="a" color="blue" ribbon>
+          <Label attached="top" color="blue">
             Venues:
           </Label>
           {venues.map(v => (
