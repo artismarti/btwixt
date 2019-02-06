@@ -25,7 +25,7 @@ class Invitees extends React.Component {
     return (
       <Segment raised>
         <List>
-          <Label as="a" color="olive" ribbon>
+          <Label attached="top" color="olive">
             Invitees:
           </Label>
           {guests
