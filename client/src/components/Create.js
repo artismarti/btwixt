@@ -106,7 +106,6 @@ class Create extends React.Component {
     )
     //  Remove current user from contacts
     uniqueContacts = uniqueContacts.filter(c => c.email !== this.props.email)
-
     this.setState({ contacts: [...uniqueContacts] })
   }
 
@@ -168,18 +167,20 @@ class Create extends React.Component {
               <Icon name="clock outline" color="orange" />
               Meeting Time:
             </label>
-            <input type="time" name="time" onChange={this.handleChange} />
+            <Input type="time" name="time" onChange={this.handleChange} />
           </Form.Field>
 
           <Form.Field>
             <label>
               <Icon name="users" color="orange" />
-              Invitees:
+              Previous Invitees:
             </label>
             {contacts.length === 0 && <div>No contacts</div>}
             {contacts.map(contact => (
               <Checkbox
-                label={contact.first_name + ' ' + contact.last_name}
+                label={
+                  ' ' + contact.first_name + ' ' + contact.last_name + '   '
+                }
                 id={contact.email}
                 key={contact.id}
                 onChange={this.handleInvitee}
