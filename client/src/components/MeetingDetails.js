@@ -1,10 +1,10 @@
 import React from 'react'
 import moment from 'moment'
-import { Label, Segment } from 'semantic-ui-react'
+import { Label, Segment, Button } from 'semantic-ui-react'
 
 class MeetingDetails extends React.Component {
   render() {
-    const { title, date, myAddress, midpoint } = this.props
+    const { title, date, myAddress, midpoint, addressChange } = this.props
     return (
       <Segment>
         <Label attached="top" color="black">
@@ -17,7 +17,13 @@ class MeetingDetails extends React.Component {
             .endOf('day')
             .fromNow()}
         </Label>
-        <p>My Start Location: {myAddress}</p>
+
+        <p>
+          Start Location:{' '}
+          <Button basic color="green" icon="edit" onClick={addressChange} />
+          {myAddress}
+        </p>
+
         <p>Meeting Location: {midpoint}</p>
       </Segment>
     )
