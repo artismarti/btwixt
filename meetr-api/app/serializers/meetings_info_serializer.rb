@@ -5,13 +5,16 @@ class MeetingsInfoSerializer < ActiveModel::Serializer
     :midpoint_longitude, 
     :date_time, 
     :meeting_address,
+    :my_status,
     :venues,
-    :users
+    :users,
+    
 
   def meeting_address
     url = "https://reverse.geocoder.api.here.com/6.2/reversegeocode.json?app_id=***REMOVED***&app_code=***REMOVED***&mode=retrieveAddresses&prox=#{object.midpoint_latitude},#{object.midpoint_longitude}"
     response_string = RestClient.get(url)
     response_hash = JSON.parse(response_string)
+    return "I dunno where" if response_hash["Response"]["View"].empty?
     response_hash["Response"]["View"][0]["Result"][0]["Location"]["Address"]["Label"]
   end
 
@@ -25,9 +28,6 @@ class MeetingsInfoSerializer < ActiveModel::Serializer
         category: mv.venue.category,
       }
     }
-    
-
-
   end
 
   def users
@@ -44,5 +44,10 @@ class MeetingsInfoSerializer < ActiveModel::Serializer
         user_status: um.user_status,
       }
     }
+  end
+
+  def my_status
+    object.user_meetings.select { |um| um.user.id == current_user.id}
+    .map{|um| um.user_status}.join
   end 
 end

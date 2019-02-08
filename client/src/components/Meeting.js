@@ -18,7 +18,9 @@ class Meeting extends React.Component {
   state = {
     modalOpen: false,
     updatedAddress: '',
+    myInviteStatus: '',
   }
+
   handleUpdateAddress = e => {
     this.setState({ updatedAddress: e.target.value })
   }
@@ -28,7 +30,8 @@ class Meeting extends React.Component {
   handleClose = () => this.setState({ modalOpen: false })
 
   getMap = (lat, lng) => {
-    return `https://image.maps.api.here.com/mia/1.6/mapview?app_id=***REMOVED***&app_code=***REMOVED***&lat=${lat}&lon=${lng}&vt=0&z=14`
+    return `https://image.maps.api.here.com/mia/1.6/mapview?app_id=***REMOVED***&app_code=***REMOVED***&lat=${lat}&lon=${lng}&vt=0&z=12&t=13&ppi=300&w=300
+&h=170`
   }
 
   handleAcceptDecline = decision => {
@@ -38,6 +41,7 @@ class Meeting extends React.Component {
       decision,
     }
     API.updateInviteeStatus(inviteeDecision)
+    this.setState({ myInviteStatus: decision })
   }
 
   deleteMeeting = () => {
@@ -56,64 +60,55 @@ class Meeting extends React.Component {
       startLocation: this.state.updatedAddress,
     }
     API.changeMidpoint(locationDetails)
+      .then(response => response.json())
+      .then(meetings => this.props.updateStateOfMeetings(meetings))
   }
 
   showMeetingButtons = () => {
-    const { meeting, email } = this.props
-    const myMeetings = meeting.users.find(u => u.email === email)
-    if (myMeetings) {
-      const createdEvent = myMeetings.user_status === 'created'
-      const acceptedInvite = myMeetings.user_status === 'accepted'
-      const declinedInvite = myMeetings.user_status === 'declined'
-      const pendingInvite = myMeetings.user_status === 'invited'
+    const { meeting } = this.props
+    return (
+      <Button.Group>
+        {meeting.my_status === 'accepted' && (
+          <Button
+            color="orange"
+            onClick={() => this.handleAcceptDecline('declined')}
+          >
+            Decline
+          </Button>
+        )}
 
-      return (
-        <Button.Group>
-          {acceptedInvite && (
-            <Button
-              color="orange"
-              onClick={() => this.handleAcceptDecline('declined')}
-            >
-              Decline
-            </Button>
-          )}
+        {meeting.my_status === 'declined' && (
+          <Button positive onClick={() => this.handleAcceptDecline('accepted')}>
+            Accept
+          </Button>
+        )}
 
-          {declinedInvite && (
+        {meeting.my_status === 'invited' && (
+          <React.Fragment>
             <Button
               positive
               onClick={() => this.handleAcceptDecline('accepted')}
             >
               Accept
             </Button>
-          )}
-
-          {pendingInvite && (
-            <React.Fragment>
-              <Button
-                positive
-                onClick={() => this.handleAcceptDecline('accepted')}
-              >
-                Accept
-              </Button>
-              <Button.Or />
-              <Button
-                negative
-                color="orange"
-                onClick={() => this.handleAcceptDecline('declined')}
-              >
-                Decline
-              </Button>
-            </React.Fragment>
-          )}
-
-          {createdEvent && (
-            <Button negative onClick={this.deleteMeeting}>
-              Delete Event
+            <Button.Or />
+            <Button
+              negative
+              color="orange"
+              onClick={() => this.handleAcceptDecline('declined')}
+            >
+              Decline
             </Button>
-          )}
-        </Button.Group>
-      )
-    }
+          </React.Fragment>
+        )}
+
+        {meeting.my_status === 'created' && (
+          <Button negative onClick={this.deleteMeeting}>
+            Delete Event
+          </Button>
+        )}
+      </Button.Group>
+    )
   }
   render() {
     const { meeting, email } = this.props
@@ -128,6 +123,7 @@ class Meeting extends React.Component {
             date={meeting.date_time}
             myAddress={myMeetings.start_address}
             midpoint={meeting.meeting_address}
+            addressChange={this.handleOpen}
           />
           <Card.Content>
             <Invitees email={email} guests={meeting.users} />
@@ -135,12 +131,8 @@ class Meeting extends React.Component {
           </Card.Content>
 
           {this.showMeetingButtons()}
+
           <Modal
-            trigger={
-              <Button color="blue" onClick={this.handleOpen}>
-                Update Start Location
-              </Button>
-            }
             open={this.state.modalOpen}
             onClose={this.handleClose}
             basic

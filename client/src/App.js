@@ -14,6 +14,8 @@ class App extends Component {
   state = {
     email: '',
     meetings: [],
+    meetingStatus: '',
+    onlyShowFutureMeetings: true,
   }
 
   // When user signs in, change email state
@@ -27,15 +29,41 @@ class App extends Component {
   signout = () => {
     localStorage.removeItem('token')
     this.setState({ email: '' })
+    this.props.history.push('/')
   }
 
   getMeetings = () => {
-    console.log('in app')
     API.getMeetings().then(data => {
       this.setState({ meetings: data }, () =>
         this.props.history.push('/meetings')
       )
     })
+  }
+
+  toggleUpcomingMeetingsState = filter => {
+    this.setState({
+      onlyShowFutureMeetings:
+        filter === undefined ? !this.state.onlyShowFutureMeetings : filter,
+    })
+  }
+
+  showUpcomingMeetings = filter => {
+    let now = new Date()
+    const { meetings } = this.state
+    if (this.state.onlyShowFutureMeetings) {
+      return meetings.filter(m => new Date(m.date_time) > now)
+    } else {
+      return meetings
+    }
+  }
+
+  meetingStatus = status => {
+    console.log(status)
+    this.setState({ meetingStatus: status })
+  }
+
+  updateStateOfMeetings = meetings => {
+    this.setState({ meetings })
   }
 
   componentDidMount() {
@@ -56,7 +84,13 @@ class App extends Component {
     const { email, meetings } = this.state
     return (
       <div className="App">
-        <Header email={email} signout={signout} />
+        <Header
+          email={email}
+          signout={signout}
+          meetings={meetings}
+          meetingStatus={this.meetingStatus}
+          toggleUpcomingMeetingsState={this.toggleUpcomingMeetingsState}
+        />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route
@@ -71,12 +105,13 @@ class App extends Component {
               <MeetingsContainer
                 {...routerProps}
                 email={email}
-                getMeetings={getMeetings}
                 meetings={meetings}
+                updateStateOfMeetings={this.updateStateOfMeetings}
+                meetingStatus={this.state.meetingStatus}
+                showUpcomingMeetings={this.showUpcomingMeetings}
               />
             )}
           />
-
           <Route
             path="/create"
             component={routerProps => (
