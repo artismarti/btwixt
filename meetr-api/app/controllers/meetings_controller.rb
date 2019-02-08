@@ -52,6 +52,7 @@ class MeetingsController < ApplicationController
 
   def update_midpoint
     @user = current_user.id
+    @meetings = current_user.meetings
     @meeting = Meeting.find(params["meeting"])
     @user_meeting = UserMeeting.find_by(
       :user_id => @user,
@@ -61,7 +62,7 @@ class MeetingsController < ApplicationController
     @user_meeting.get_lat_lng(params["startLocation"])
     
     @meeting.recalculate_midpoint
-    render json: {message: "Updated Midpoint"}
+    render json: @meetings, each_serializer: MeetingsInfoSerializer
     
   end  
 
