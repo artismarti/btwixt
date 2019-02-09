@@ -25,6 +25,8 @@ class MeetingsContainer extends React.Component {
       filteredMeetings = meetings
         .filter(m => m.my_status === meetingStatus)
         .map(meeting => meeting)
+    } else if (meetingStatus === '') {
+      filteredMeetings = this.state.allMeetings
     } else {
       filteredMeetings = this.props.showUpcomingMeetings()
     }
@@ -41,8 +43,6 @@ class MeetingsContainer extends React.Component {
 
   render() {
     const { meetings } = this.props
-    const { meetingStatus } = this.state
-
     return (
       <Container fluid>
         <Card.Group stackable centered>
