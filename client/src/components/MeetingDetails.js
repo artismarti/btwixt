@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import { Label, Segment, Button } from 'semantic-ui-react'
+import { Label, Segment, Divider, Icon, Message } from 'semantic-ui-react'
 
 class MeetingDetails extends React.Component {
   render() {
@@ -17,14 +17,32 @@ class MeetingDetails extends React.Component {
             .endOf('day')
             .fromNow()}
         </Label>
+        <Message
+          fluid
+          info
+          size="mini"
+          icon="edit"
+          onClick={addressChange}
+          header="My Start Location:"
+          content=<a
+            href={`https://www.google.co.uk/maps/search/${myAddress}`}
+            target="_blank"
+          >
+            {myAddress}
+          </a>
+        />
 
         <p>
-          Start Location:{' '}
-          <Button basic color="green" icon="edit" onClick={addressChange} />
-          {myAddress}
+          bTwixt Suggested Location:{' '}
+          <Label color="teal">
+            <a
+              href={`https://www.google.co.uk/maps/search/${midpoint}`}
+              target="_blank"
+            >
+              {midpoint}
+            </a>
+          </Label>
         </p>
-
-        <p>Meeting Location: {midpoint}</p>
       </Segment>
     )
   }
