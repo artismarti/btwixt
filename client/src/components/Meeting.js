@@ -18,7 +18,7 @@ class Meeting extends React.Component {
   state = {
     modalOpen: false,
     updatedAddress: '',
-    myInviteStatus: '',
+    myInviteStatus: this.props.meeting.my_status,
   }
 
   handleUpdateAddress = e => {
@@ -35,6 +35,8 @@ class Meeting extends React.Component {
   }
 
   handleAcceptDecline = decision => {
+    console.log('accept/decline')
+
     const { meeting } = this.props
     let inviteeDecision = {
       meeting: meeting.id,
@@ -65,10 +67,9 @@ class Meeting extends React.Component {
   }
 
   showMeetingButtons = () => {
-    const { meeting } = this.props
     return (
       <Button.Group>
-        {meeting.my_status === 'accepted' && (
+        {this.state.myInviteStatus === 'accepted' && (
           <Button
             color="orange"
             onClick={() => this.handleAcceptDecline('declined')}
@@ -77,13 +78,13 @@ class Meeting extends React.Component {
           </Button>
         )}
 
-        {meeting.my_status === 'declined' && (
+        {this.state.myInviteStatus === 'declined' && (
           <Button positive onClick={() => this.handleAcceptDecline('accepted')}>
             Accept
           </Button>
         )}
 
-        {meeting.my_status === 'invited' && (
+        {this.state.myInviteStatus === 'invited' && (
           <React.Fragment>
             <Button
               positive
@@ -102,7 +103,7 @@ class Meeting extends React.Component {
           </React.Fragment>
         )}
 
-        {meeting.my_status === 'created' && (
+        {this.state.myInviteStatus === 'created' && (
           <Button negative onClick={this.deleteMeeting}>
             Delete Event
           </Button>
@@ -127,6 +128,7 @@ class Meeting extends React.Component {
           />
           <Card.Content>
             <Invitees email={email} guests={meeting.users} />
+
             <Venues venues={meeting.venues} />
           </Card.Content>
 
@@ -164,7 +166,9 @@ class Meeting extends React.Component {
             )}
             as="a"
             size="medium"
-            href="http://google.com"
+            href={`https://www.google.co.uk/maps/search/${
+              meeting.meeting_address
+            }`}
             target="_blank"
             centered
             bordered
