@@ -1,5 +1,5 @@
 import React from 'react'
-import { Label, List, Button, Popup, Segment } from 'semantic-ui-react'
+import { Label, List, Message, Popup, Table } from 'semantic-ui-react'
 
 class Invitees extends React.Component {
   iconSelector = status => {
@@ -23,31 +23,40 @@ class Invitees extends React.Component {
   render() {
     const { guests, email } = this.props
     return (
-      <Segment>
-        <Popup
-          trigger={
-            <Button fluid color="olive">
-              View Invitees
-            </Button>
-          }
-          flowing
-          hoverable
-        >
-          <List>
-            <Label attached="top" color="olive">
-              Invitees:
-            </Label>
+      <Popup
+        trigger={
+          <Message size="mini" fluid icon="users" header="View Invitees" info />
+        }
+        flowing
+        hoverable
+      >
+        <Table celled>
+          <Label attached="top" color="olive">
+            Invitees:
+          </Label>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Name or Email</Table.HeaderCell>
+              <Table.HeaderCell>Start Address</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
             {guests
               .filter(g => g.email !== email)
               .map(g => (
-                <List.Item key={g.id}>
-                  {this.iconSelector(g.user_status)}
-                  {g.first_name} {g.last_name}: {g.start_address}
-                </List.Item>
+                <Table.Row>
+                  <Table.Cell>{this.iconSelector(g.user_status)}</Table.Cell>
+                  <Table.Cell key={g.id}>
+                    {g.first_name ? `${g.first_name} ${g.last_name}` : g.email}
+                  </Table.Cell>
+                  <Table.Cell>{g.start_address}</Table.Cell>
+                </Table.Row>
               ))}
-          </List>
-        </Popup>
-      </Segment>
+          </Table.Body>
+        </Table>
+      </Popup>
     )
   }
 }
