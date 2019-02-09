@@ -18,8 +18,8 @@ class MeetingsController < ApplicationController
     @user = current_user
 
     # Get or create all guests:
-    @all_guests = params["invitees"].map{ |invitee_email| User.find_or_create_by(:email => invitee_email) }
-
+    @all_guests = params["invitees"].map{ |invitee_email| User.find_or_create_by(
+      :email => invitee_email) }
     @meeting = Meeting.new(:title => params["title"], 
       :date_time => params["date_time"], 
       # Make  meeting mid point to be same as creators start lat long
@@ -60,7 +60,14 @@ class MeetingsController < ApplicationController
       )
     @user_meeting.update(:start_address => params["startLocation"])
     @user_meeting.get_lat_lng(params["startLocation"])
-    
+    if @user_meeting.user_status == 'created'
+      @pending_guests = UserMeeting.where(
+        :user_status => 'invited',
+        :meeting_id => @meeting
+      )
+      @pending_guests.update(:start_address => params["startLocation"])
+      @pending_guests.each{|pg| pg.get_lat_lng(params["startLocation"])}
+    end    
     @meeting.recalculate_midpoint
     render json: @meetings, each_serializer: MeetingsInfoSerializer
     
@@ -81,4 +88,5 @@ class MeetingsController < ApplicationController
   def meeting_params(*args)
     params.require(:meeting).permit(*args)
   end
+
 end
