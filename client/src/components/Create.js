@@ -1,5 +1,19 @@
 import React from 'react'
-import { Button, Checkbox, Form, Icon, Card, Input } from 'semantic-ui-react'
+import {
+  Button,
+  Checkbox,
+  Form,
+  Icon,
+  Card,
+  Input,
+  List,
+} from 'semantic-ui-react'
+import {
+  DateInput,
+  TimeInput,
+  DateTimeInput,
+  DatesRangeInput,
+} from 'semantic-ui-calendar-react'
 
 import API from '../API'
 
@@ -13,6 +27,8 @@ class Create extends React.Component {
     time: '',
     start_address: '',
     invitees: [],
+    newInviteeEmail: '',
+    newInvitees: [],
   }
 
   getContacts() {
@@ -58,10 +74,9 @@ class Create extends React.Component {
       start_address: this.state.start_address,
       latitude: this.state.latitude,
       longitude: this.state.longitude,
-      invitees: this.state.invitees,
+      invitees: [...this.state.invitees, ...this.state.newInvitees],
       date_time: date_time,
     }
-    console.log(meeting)
 
     API.createMeeting(meeting).then(data => {
       if (data.error) {
@@ -131,6 +146,27 @@ class Create extends React.Component {
     this.setState({ invitees })
   }
 
+  handleNewInvitees = event => {
+    this.setState({
+      newInviteeEmail: event.target.value,
+    })
+  }
+  createNewInvitees = event => {
+    this.setState({
+      newInvitees: [...this.state.newInvitees, this.state.newInviteeEmail],
+      newInviteeEmail: '',
+    })
+  }
+
+  displayNewInviteesList = () => {
+    let newInvitees = this.state.newInvitees
+    return newInvitees.length > 0 ? (
+      newInvitees.map(ni => <List.Item icon="users" content={ni} />)
+    ) : (
+      <List.Item icon="users" content={'Add New Invitees'} />
+    )
+  }
+
   render() {
     const { contacts } = this.state
     return (
@@ -147,7 +183,7 @@ class Create extends React.Component {
           <Form.Field required width="six">
             <label>
               <Icon name="location arrow" color="orange" />
-              Street address or Postcode:
+              My Start Address Or Postcode:
             </label>
             <Input
               placeholder="address"
@@ -158,18 +194,17 @@ class Create extends React.Component {
           <Form.Field required width="six">
             <label>
               <Icon name="calendar check outline" color="orange" />
-              Meeting Date:
+              Event Date:
             </label>
             <Input type="date" name="date" onChange={this.handleChange} />
           </Form.Field>
           <Form.Field required width="six">
             <label>
               <Icon name="clock outline" color="orange" />
-              Meeting Time:
+              Event Time:
             </label>
             <Input type="time" name="time" onChange={this.handleChange} />
           </Form.Field>
-
           <Form.Field>
             <label>
               <Icon name="users" color="orange" />
@@ -187,8 +222,25 @@ class Create extends React.Component {
               />
             ))}
           </Form.Field>
+          <Form.Field>
+            <label>
+              <Icon name="users" color="green" />
+              New Invitee(s):
+            </label>
+          </Form.Field>
+          <List>{this.displayNewInviteesList()}</List>
+          <Input
+            type="text"
+            name="newInvitees"
+            value={this.state.newInviteeEmail}
+            onChange={this.handleNewInvitees}
+          />
+
+          <Button type="submit" secondary onClick={this.createNewInvitees}>
+            Invite
+          </Button>
           <Button type="submit" primary onClick={this.handleSubmit}>
-            Submit
+            Create New Event
           </Button>
         </Form>
       </Card.Group>
