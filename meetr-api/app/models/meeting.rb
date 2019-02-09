@@ -1,7 +1,7 @@
 class Meeting < ApplicationRecord
   has_many :user_meetings, dependent: :destroy
   has_many :users, through: :user_meetings
-  has_many :meeting_venues
+  has_many :meeting_venues, dependent: :destroy
   has_many :venues, through: :meeting_venues
   validates :date_time, presence: true
   validates :title, presence: true
@@ -28,7 +28,7 @@ class Meeting < ApplicationRecord
   end
 
   def get_lat_lng_hash
-    user_status = ['accepted', 'created', 'invited']
+    user_status = ['accepted', 'created']
     @user_meetings = self.user_meetings.select{|um| 
       user_status.include?(um.user_status)
     }
