@@ -13,9 +13,9 @@
 #   Meeting.create!(title: Faker::Nation.capital_city, date_time: Faker::Time.between(DateTime.now + 1, DateTime.now+20))
 # end
 
-# User.create!(first_name: "Arti", last_name: "Mathanda", email: "artismarti@gmail.com", password: "cat", guest: false)
-# User.create!(first_name: "Megan", last_name: "Folsom", email: "m@f.com", password: "", guest: true)
-# User.create!(first_name: "Graca", last_name: "Morgado", email: "g@m.com", password: "", guest: true)
+User.create!(first_name: "Arti", last_name: "Mathanda", email: "artismarti@gmail.com", password: "cat", guest: false)
+User.create!(first_name: "Megan", last_name: "Folsom", email: "m@f.com", password: "", guest: true)
+User.create!(first_name: "Graca", last_name: "Morgado", email: "g@m.com", password: "", guest: true)
 
 
 UserMeeting.create(user_id: 21, meeting_id: 4, start_latitude: 51.53289 , start_longitude: -0.13096 ,user_status: "created", start_address: "W68JS" )
