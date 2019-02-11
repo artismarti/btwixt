@@ -2501,3 +2501,14 @@ node_modules/shallowequal/index.original.js
 node_modules/shallowequal/package.json
 package.json
 yarn.lock
+# misc
+.DS_Store
+.env
+.env.default
+node_modules/dotenv/CHANGELOG.md
+node_modules/dotenv/LICENSE
+node_modules/dotenv/README.md
+node_modules/dotenv/config.js
+node_modules/dotenv/lib/cli-options.js
+node_modules/dotenv/lib/env-options.js
+node_modules/dotenv/lib/main.js
