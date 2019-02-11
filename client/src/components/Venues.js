@@ -8,13 +8,7 @@ class Venues extends React.Component {
     return (
       <Popup
         trigger={
-          <Message
-            size="mini"
-            fluid
-            icon="food"
-            header="Suggested Venues"
-            info
-          />
+          <Message size="mini" icon="food" header="Suggested Venues" info />
         }
         flowing
         hoverable
@@ -24,7 +18,15 @@ class Venues extends React.Component {
             Venues:
           </Label>
           {venues.map(v => (
-            <List.Item key={v.id}>{v.name}</List.Item>
+            <List.Item key={v.id}>
+              <a
+                href={`https://www.google.co.uk/maps/search/${v.name}+${
+                  v.address
+                }`}
+              >
+                {v.name}
+              </a>
+            </List.Item>
           ))}
         </List>
       </Popup>
