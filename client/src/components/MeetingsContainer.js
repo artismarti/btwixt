@@ -7,6 +7,7 @@ class MeetingsContainer extends React.Component {
     meetingStatus: this.props.meetingStatus,
     dateFilter: false,
     allMeetings: this.props.meetings,
+    deletedMeetingID: '',
   }
 
   componentDidMount() {
@@ -15,6 +16,10 @@ class MeetingsContainer extends React.Component {
     if (!email) {
       return history.push('/signin')
     }
+  }
+
+  refreshOnDelete = id => {
+    this.setState({ deletedMeetingID: id })
   }
 
   renderMeetings = () => {
@@ -37,6 +42,7 @@ class MeetingsContainer extends React.Component {
         meeting={meeting}
         email={email}
         updateStateOfMeetings={updateStateOfMeetings}
+        refreshOnDelete={this.refreshOnDelete}
       />
     ))
   }

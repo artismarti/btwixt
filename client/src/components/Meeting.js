@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  Button,
-  Card,
-  Header,
-  Icon,
-  Image,
-  Input,
-  Modal,
-} from 'semantic-ui-react'
+import { Button, Card } from 'semantic-ui-react'
 
 import API from '../API'
 import MeetingDetails from './MeetingDetails'
@@ -16,22 +8,8 @@ import Venues from './Venues'
 
 class Meeting extends React.Component {
   state = {
-    modalOpen: false,
     updatedAddress: '',
     myInviteStatus: this.props.meeting.my_status,
-  }
-
-  handleUpdateAddress = e => {
-    this.setState({ updatedAddress: e.target.value })
-  }
-
-  handleOpen = () => this.setState({ modalOpen: true })
-
-  handleClose = () => this.setState({ modalOpen: false })
-
-  getMap = (lat, lng) => {
-    return `https://image.maps.api.here.com/mia/1.6/mapview?app_id=EUNJEIDbEAKKaUz5IRBj&app_code=nI-30KLhGkA-zFavU7hhYw&lat=${lat}&lon=${lng}&vt=0&z=12&t=13&ppi=300&w=300
-&h=170`
   }
 
   handleAcceptDecline = decision => {
@@ -47,23 +25,12 @@ class Meeting extends React.Component {
   }
 
   deleteMeeting = () => {
-    const { meeting } = this.props
+    const { meeting, refreshOnDelete } = this.props
     let meetingToDelete = {
       meeting: meeting.id,
     }
+    refreshOnDelete(meeting.id)
     API.delete(meetingToDelete)
-  }
-
-  handleChangeLocation = () => {
-    this.handleClose()
-    const { meeting } = this.props
-    let locationDetails = {
-      meeting: meeting.id,
-      startLocation: this.state.updatedAddress,
-    }
-    API.changeMidpoint(locationDetails)
-      .then(response => response.json())
-      .then(meetings => this.props.updateStateOfMeetings(meetings))
   }
 
   showMeetingButtons = () => {
@@ -120,11 +87,14 @@ class Meeting extends React.Component {
         <Card color="blue" key={meeting.id}>
           <MeetingDetails
             key={`${meeting.id}_md`}
+            id={meeting.id}
             title={meeting.title}
             date={meeting.date_time}
             myAddress={myMeetings.start_address}
             midpoint={meeting.meeting_address}
-            addressChange={this.handleOpen}
+            midpointLatitude={meeting.midpoint_latitude}
+            midpointLongitude={meeting.midpoint_longitude}
+            updateStateOfMeetings={this.props.updateStateOfMeetings}
           />
           <Card.Content>
             <Invitees email={email} guests={meeting.users} />
@@ -133,46 +103,6 @@ class Meeting extends React.Component {
           </Card.Content>
 
           {this.showMeetingButtons()}
-
-          <Modal
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-            basic
-            size="small"
-          >
-            <Header icon="map" content="Enter New Start Address" />
-            <Modal.Actions>
-              <Input
-                type="text"
-                onChange={this.handleUpdateAddress}
-                placeholder="Postcode or Address"
-              />
-              <Button color="red" onClick={this.handleClose} inverted>
-                <Icon name="close" /> Cancel
-              </Button>
-              <Button
-                color="green"
-                onClick={this.handleChangeLocation}
-                inverted
-              >
-                <Icon name="checkmark" /> Change Address
-              </Button>
-            </Modal.Actions>
-          </Modal>
-          <Image
-            src={this.getMap(
-              meeting.midpoint_latitude,
-              meeting.midpoint_longitude
-            )}
-            as="a"
-            size="medium"
-            href={`https://www.google.co.uk/maps/search/${
-              meeting.meeting_address
-            }`}
-            target="_blank"
-            centered
-            bordered
-          />
         </Card>
       </React.Fragment>
     )
