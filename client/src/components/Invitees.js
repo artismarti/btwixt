@@ -1,5 +1,5 @@
 import React from 'react'
-import { Label, List, Message, Popup, Table } from 'semantic-ui-react'
+import { List, Message, Popup, Table } from 'semantic-ui-react'
 
 class Invitees extends React.Component {
   iconSelector = status => {
@@ -25,15 +25,12 @@ class Invitees extends React.Component {
     return (
       <Popup
         trigger={
-          <Message size="mini" fluid icon="users" header="View Invitees" info />
+          <Message size="mini" icon="users" header="View Invitees" info />
         }
         flowing
         hoverable
       >
-        <Table celled>
-          <Label attached="top" color="olive">
-            Invitees:
-          </Label>
+        <Table celled stackable>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Status</Table.HeaderCell>
@@ -46,9 +43,9 @@ class Invitees extends React.Component {
             {guests
               .filter(g => g.email !== email)
               .map(g => (
-                <Table.Row>
+                <Table.Row key={g.id}>
                   <Table.Cell>{this.iconSelector(g.user_status)}</Table.Cell>
-                  <Table.Cell key={g.id}>
+                  <Table.Cell>
                     {g.first_name ? `${g.first_name} ${g.last_name}` : g.email}
                   </Table.Cell>
                   <Table.Cell>{g.start_address}</Table.Cell>
