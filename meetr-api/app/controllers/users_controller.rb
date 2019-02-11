@@ -1,21 +1,13 @@
 class UsersController < ApplicationController
-  before_action :find_user, only:[:show, :edit, :update, :destroy]
+  before_action :find_user, only:[:show, :edit, :update]
 
-  def show
+  def index
+		@user = current_user
     if @user
       render json: @user
     else 
       render json: {error: 'User not found.'}, status: 404
     end
-  end
-
-  def index
-		@users = User.all
-		render json: @users
-  end
-
-  def new
-    @user = User.new
   end
 
   def create
@@ -75,27 +67,23 @@ class UsersController < ApplicationController
   end
 
   def update
-    # @user.update(user_params(:first_name, :last_name, :email, :password))
-    # if @user.valid?
-    #   @user.save
-    #   redirect_to user_path(@user)
-    # else
-    #   flash[:errors] = @user.errors.full_messages
-    #   render :edit
-    # end
+    byebug
+    if @user.password == user_params(:currentPassword)
+      byebug
+      @user.update(user_params(:first_name, :last_name, :password => newPassword))
+      if @user.valid?
+       @user.save
+        render json: {success: 'User updated.'}
+      else
+        render json: {error: 'Could not update user.'}
+      end
+    end
   end
 
-  def destroy
-    # @user.destroy
-    # flash[:success] = 'The user and all location & meeting data was wiped out'
-    # redirect_to users_path
-
-    # flash[:success] = 'The user and all location & meeting data was wiped out'
-  end
 
   private
   def find_user
-    @user = User.find_by(id: params[:id])
+    @user = current_user
   end
 
   def user_params(*args)

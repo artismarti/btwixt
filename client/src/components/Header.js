@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'semantic-ui-react'
+import { Button, Label } from 'semantic-ui-react'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap/'
 
 class Header extends Component {
@@ -16,13 +16,13 @@ class Header extends Component {
   }
 
   render() {
-    const { email, signout } = this.props
+    const { email, signout, userName, showProfile } = this.props
     return (
       <header className="App-header">
         <Navbar fixed="top" bg="warning" variant="dark">
           <Navbar.Brand href="#home">bTwixt</Navbar.Brand>
           <Link to="/signin">
-            <button>SIGN IN</button>
+            <Button>Sign In</Button>
           </Link>
         </Navbar>
         <br />
@@ -30,6 +30,7 @@ class Header extends Component {
           <>
             <Navbar fixed="top" bg="dark" expand="lg" variant="dark">
               <Navbar.Brand href="#home">bTwixt</Navbar.Brand>
+
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
@@ -69,9 +70,20 @@ class Header extends Component {
                   </NavDropdown>
                 </Nav>
                 <Navbar.Text className="mr-sm-2 header">
-                  {email ? `Welcome back, ${email}` : `Welcome to bTw📍xt.`}
+                  {email ? (
+                    <Label
+                      as="a"
+                      basic
+                      color="blue"
+                      content={userName}
+                      icon="user"
+                      onClick={showProfile}
+                    />
+                  ) : (
+                    `Welcome to bTw📍xt.`
+                  )}
                 </Navbar.Text>
-                <button onClick={signout}>SIGN OUT</button>
+                <Button onClick={signout}>SIGN OUT</Button>
               </Navbar.Collapse>
             </Navbar>
           </>
