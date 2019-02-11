@@ -16,6 +16,8 @@ import {
 } from 'semantic-ui-calendar-react'
 
 import API from '../API'
+const APP_ID = process.env.REACT_APP_HERE_APP_ID
+const APP_CODE = process.env.REACT_APP_HERE_APP_CODE
 
 class Create extends React.Component {
   state = {
@@ -58,7 +60,7 @@ class Create extends React.Component {
 
   // Create New Meeting
   handleSubmit = event => {
-    let url = `https://geocoder.api.here.com/6.2/geocode.json?app_id=EUNJEIDbEAKKaUz5IRBj&app_code=nI-30KLhGkA-zFavU7hhYw&searchtext=${
+    let url = `https://geocoder.api.here.com/6.2/geocode.json?app_id=${APP_ID}&app_code=${APP_CODE}&searchtext=${
       this.state.start_address
     }`
     // send start address to get lat long from API
