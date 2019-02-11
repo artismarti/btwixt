@@ -10,6 +10,7 @@ class API {
     this.updateInviteeURL = this.baseURL + '/user_meetings/update'
     this.updateMidpointURL = this.baseURL + '/midpoint'
     this.getVenuesURL = this.baseURL + '/venues'
+    this.userURL = this.baseURL + '/users'
     this.deleteMeetingURL = this.baseURL + '/meetings/delete'
   }
 
@@ -39,6 +40,9 @@ class API {
   static getMeetings() {
     return this.get(this.meetingsURL)
   }
+  static getUser() {
+    return this.get(this.userURL)
+  }
 
   static getContacts() {
     return this.get(this.contactsURL)
@@ -59,6 +63,16 @@ class API {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json', Authorization: token },
       body: JSON.stringify(inviteeDecision),
+    })
+  }
+
+  static updateUserProfile(user) {
+    console.log('Updating user')
+    const token = localStorage.getItem('token')
+    return fetch(`${this.userURL}/${user.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', Authorization: token },
+      body: JSON.stringify(user),
     })
   }
 

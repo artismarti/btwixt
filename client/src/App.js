@@ -4,6 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import Header from './components/Header'
 import SignInForm from './components/SignInForm'
 import MeetingsContainer from './components/MeetingsContainer'
+import ProfileContainer from './components/ProfileContainer'
 import HomePage from './components/HomePage'
 import PageNotFound from './components/PageNotFound'
 import Create from './components/Create'
@@ -13,9 +14,13 @@ import API from './API'
 class App extends Component {
   state = {
     email: '',
+    userName: '',
     meetings: [],
     meetingStatus: '',
     onlyShowFutureMeetings: true,
+    toggleContainers: 'meeting',
+    firstName: '',
+    lastName: '',
   }
 
   // When user signs in, change email state
@@ -30,6 +35,10 @@ class App extends Component {
     localStorage.removeItem('token')
     this.setState({ email: '' })
     this.props.history.push('/')
+  }
+
+  showProfile = () => {
+    this.setState({ toggleContainers: 'profile' })
   }
 
   getMeetings = () => {
@@ -75,20 +84,26 @@ class App extends Component {
         history.push('/')
       } else {
         signin(data.user.email, data.token)
+        this.setState({
+          userName: `${data.user.first_name} ${data.user.last_name}`,
+          firstName: data.user.first_name,
+          lastName: data.user.last_name,
+        })
         this.getMeetings()
       }
     })
   }
   render() {
     const { signin, signout, getMeetings } = this
-    const { email, meetings } = this.state
+    const { email, meetings, firstName, lastName, userName } = this.state
     return (
       <div className="App">
         <Header
           email={email}
           signout={signout}
-          meetings={meetings}
+          userName={userName}
           meetingStatus={this.meetingStatus}
+          showProfile={this.showProfile}
           toggleUpcomingMeetingsState={this.toggleUpcomingMeetingsState}
         />
         <Switch>
@@ -99,19 +114,27 @@ class App extends Component {
               <SignInForm {...routerProps} signin={signin} />
             )}
           />
-          <Route
-            path="/meetings"
-            component={routerProps => (
-              <MeetingsContainer
-                {...routerProps}
-                email={email}
-                meetings={meetings}
-                updateStateOfMeetings={this.updateStateOfMeetings}
-                meetingStatus={this.state.meetingStatus}
-                showUpcomingMeetings={this.showUpcomingMeetings}
-              />
-            )}
-          />
+          {this.state.toggleContainers === 'meeting' ? (
+            <Route
+              path="/meetings"
+              component={routerProps => (
+                <MeetingsContainer
+                  {...routerProps}
+                  email={email}
+                  meetings={meetings}
+                  updateStateOfMeetings={this.updateStateOfMeetings}
+                  meetingStatus={this.state.meetingStatus}
+                  showUpcomingMeetings={this.showUpcomingMeetings}
+                />
+              )}
+            />
+          ) : (
+            <ProfileContainer
+              email={email}
+              firstName={firstName}
+              lastName={lastName}
+            />
+          )}
           <Route
             path="/create"
             component={routerProps => (
