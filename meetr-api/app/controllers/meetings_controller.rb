@@ -18,8 +18,12 @@ class MeetingsController < ApplicationController
     @user = current_user
 
     # Get or create all guests:
-    @all_guests = params["invitees"].map{ |invitee_email| User.find_or_create_by(
+    @all_guests = params["invitees"].map{ |invitee_email| User.create_with(
+      first_name: @user.first_name,
+      last_name: "Guest").find_or_create_by(
       :email => invitee_email) }
+    # @all_guests = params["invitees"].map{ |invitee_email| User.find_or_create_by(
+    #   :email => invitee_email) }
     @meeting = Meeting.new(:title => params["title"], 
       :date_time => params["date_time"], 
       # Make  meeting mid point to be same as creators start lat long
@@ -37,7 +41,8 @@ class MeetingsController < ApplicationController
         :start_longitude => params["longitude"])
       # Save
       creator_user_meeting.save
-      #  Create invitee usermeeting records
+
+      #  Create invitee UserMeetings 
         @all_guests.each do |guest|
           UserMeeting.create(:user_id => guest.id, 
           :meeting_id => @meeting.id, 
@@ -50,6 +55,8 @@ class MeetingsController < ApplicationController
     end
   end
 
+  # Update the midpoint when new meeting is created
+  # Or when a start address is changed
   def update_midpoint
     @user = current_user.id
     @meetings = current_user.meetings
