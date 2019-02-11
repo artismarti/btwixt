@@ -18,6 +18,7 @@ User.create!(first_name: "Megan", last_name: "Folsom", email: "m@f.com", passwor
 User.create!(first_name: "Graca", last_name: "Morgado", email: "g@m.com", password: "", guest: true)
 
 
+
 UserMeeting.create(user_id: 21, meeting_id: 4, start_latitude: 51.53289 , start_longitude: -0.13096 ,user_status: "created", start_address: "W68JS" )
 UserMeeting.create(user_id: 22, meeting_id: 4, start_latitude: 51.48881 , start_longitude: -0.22293 ,user_status: "invited", start_address: "W68JS" )
 UserMeeting.create(user_id: 23, meeting_id: 4, start_latitude: 51.52612 , start_longitude: -0.10722 ,user_status: "invited", start_address: "W68JS" )
