@@ -1,7 +1,5 @@
 import React from 'react'
-
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 import API from '../API'
 
@@ -29,29 +27,59 @@ class SignInForm extends React.Component {
     const { handleChange, handleSubmit } = this
 
     return (
-      <div>
-        <TextField
-          id="emailInput"
-          label="email"
-          value={email}
-          onChange={handleChange}
-          margin="normal"
-          name="email"
-        />
-        <br />
-        <TextField
-          id="passwordInput"
-          label="password"
-          value={password}
-          onChange={handleChange}
-          margin="normal"
-          name="password"
-          type="password"
-        />
-        <br />
-        <Button onClick={handleSubmit} variant="contained" color="primary">
-          SUBMIT
-        </Button>
+      <div className="login-form">
+        <style>{`
+      body > div,
+      body > div > div,
+      body > div > div > div.login-form {
+        height: 100%;
+      }
+    `}</style>
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h2" color="teal" textAlign="center">
+              Log-in to your account
+            </Header>
+            <Form size="large">
+              <Segment stacked>
+                <Form.Input
+                  id="emailInput"
+                  label="email"
+                  value={email}
+                  onChange={handleChange}
+                  name="email"
+                  fluid
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="E-mail address"
+                />
+                <Form.Input
+                  id="passwordInput"
+                  label="password"
+                  value={password}
+                  onChange={handleChange}
+                  name="password"
+                  type="password"
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Password"
+                />
+
+                <Button color="teal" onClick={handleSubmit} fluid size="large">
+                  Login
+                </Button>
+              </Segment>
+            </Form>
+            <Message>
+              New to bTwixt? <a href="#">Sign Up</a>
+            </Message>
+          </Grid.Column>
+        </Grid>
       </div>
     )
   }
