@@ -42,11 +42,13 @@ class App extends Component {
   }
 
   getMeetings = () => {
-    API.getMeetings().then(data => {
-      this.setState({ meetings: data }, () =>
-        this.props.history.push('/meetings')
-      )
-    })
+    API.getMeetings()
+      .then(data => {
+        this.setState({ meetings: data }, () =>
+          this.props.history.push('/meetings')
+        )
+      })
+      .catch(errors => console.log(errors))
   }
 
   toggleUpcomingMeetingsState = filter => {
@@ -125,6 +127,7 @@ class App extends Component {
                   updateStateOfMeetings={this.updateStateOfMeetings}
                   meetingStatus={this.state.meetingStatus}
                   showUpcomingMeetings={this.showUpcomingMeetings}
+                  getMeetings={this.getMeetings}
                 />
               )}
             />
