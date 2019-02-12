@@ -1,59 +1,73 @@
 import React from 'react'
-import { List, Message, Popup, Table } from 'semantic-ui-react'
 
 class Invitees extends React.Component {
+  clickViewHandler = event => {
+    const formEl = event.target.parentNode.parentNode.querySelector(
+      '.invitees__table'
+    )
+    formEl.classList.toggle('visible')
+  }
+
   iconSelector = status => {
-    switch (status) {
-      case 'invited':
-        return <List.Icon name="help circle" color="grey" />
-        break
-      case 'accepted':
-        return <List.Icon name="thumbs up outline" color="green" />
-        break
-      case 'declined':
-        return <List.Icon name="thumbs down outline" color="red" />
-        break
-      case 'created':
-        return <List.Icon name="user circle" color="blue" />
-        break
-      default:
-        return <List.Icon name="help" color="red" />
-    }
+    let imgUrl = ''
+    // switch (status) {
+    //   case 'invited':
+    //     return <List.Icon name="help circle" color="grey" />
+    //     break
+    //   case 'accepted':
+    //     return <List.Icon name="thumbs up outline" color="green" />
+    //     break
+    //   case 'declined':
+    //     return <List.Icon name="thumbs down outline" color="red" />
+    //     break
+    //   case 'created':
+    //     return <List.Icon name="user circle" color="blue" />
+    //     break
+    //   default:
+    //     return <List.Icon name="help" color="red" />
+    // }
+
+    return imgUrl
   }
   render() {
     const { guests, email } = this.props
     return (
-      <Popup
-        trigger={
-          <Message size="mini" icon="users" header="View Invitees" info />
-        }
-        flowing
-        hoverable
-      >
-        <Table celled stackable>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Status</Table.HeaderCell>
-              <Table.HeaderCell>Name or Email</Table.HeaderCell>
-              <Table.HeaderCell>Start Address</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-
-          <Table.Body>
+      <div className={'info_card invitees'}>
+        <div className={'info_card__header'}>
+          <div
+            className={'info_card__header__image_wrapper'}
+            onClick={this.clickViewHandler}
+          >
+            <img src={require('../images/invitees.svg')} />
+          </div>
+          <p className={'view-invitees'} onClick={this.clickViewHandler}>
+            View Invitees:
+          </p>
+        </div>
+        <div className={'invitees__table'}>
+          <div className={'invitees__table__header'}>
+            <div className={'invitee_cell'}>Status</div>
+            <div className={'invitee_cell'}>Name</div>
+            <div className={'invitee_cell'}>Start Address</div>
+          </div>
+          <div className={'invitees__table__body'}>
             {guests
               .filter(g => g.email !== email)
               .map(g => (
-                <Table.Row key={g.id}>
-                  <Table.Cell>{this.iconSelector(g.user_status)}</Table.Cell>
-                  <Table.Cell>
+                <div className={'invitee_row'} key={g.id}>
+                  <div className={'invitee_cell'}>
+                    <img src={this.iconSelector(g.user_status)} />
+                    {g.user_status}
+                  </div>
+                  <div className={'invitee_cell'}>
                     {g.first_name ? `${g.first_name} ${g.last_name}` : g.email}
-                  </Table.Cell>
-                  <Table.Cell>{g.start_address}</Table.Cell>
-                </Table.Row>
+                  </div>
+                  <div className={'invitee_cell'}>{g.start_address}</div>
+                </div>
               ))}
-          </Table.Body>
-        </Table>
-      </Popup>
+          </div>
+        </div>
+      </div>
     )
   }
 }

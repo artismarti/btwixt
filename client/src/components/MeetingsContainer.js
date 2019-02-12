@@ -1,6 +1,8 @@
 import React from 'react'
 import Meeting from './Meeting'
-import { Container, Card } from 'semantic-ui-react'
+// import { Container, Card } from 'semantic-ui-react'
+import './MeetingsContainer.css'
+import { SSL_OP_LEGACY_SERVER_CONNECT } from 'constants'
 
 class MeetingsContainer extends React.Component {
   state = {
@@ -19,6 +21,9 @@ class MeetingsContainer extends React.Component {
   }
 
   refreshOnDelete = id => {
+    let allMeetings = this.state.allMeetings
+    allMeetings = allMeetings.filter(m => m.id !== id)
+    this.setState({ allMeetings })
     this.setState({ deletedMeetingID: id })
   }
 
@@ -27,7 +32,7 @@ class MeetingsContainer extends React.Component {
     let filteredMeetings = []
     const { meetings } = this.props
     if (meetingStatus !== '') {
-      filteredMeetings = meetings
+      filteredMeetings = this.state.allMeetings
         .filter(m => m.my_status === meetingStatus)
         .map(meeting => meeting)
     } else if (meetingStatus === '') {
@@ -50,17 +55,14 @@ class MeetingsContainer extends React.Component {
   render() {
     const { meetings } = this.props
     return (
-      <Container fluid>
-        <Card.Group stackable centered>
-          {meetings.length === 0 && (
-            <div>
-              <p>No meetings yet.</p> <button>Create one?</button>
-            </div>
-          )}
-
-          {meetings && this.renderMeetings()}
-        </Card.Group>
-      </Container>
+      <div className={'meeting_cards'}>
+        {meetings.length === 0 && (
+          <div>
+            <p>No meetings yet.</p> <button>Create one?</button>
+          </div>
+        )}
+        {meetings && this.renderMeetings()}
+      </div>
     )
   }
 }

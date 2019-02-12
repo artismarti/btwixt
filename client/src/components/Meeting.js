@@ -1,8 +1,10 @@
 import React from 'react'
-import { Button, Card } from 'semantic-ui-react'
+import './Meeting.css'
 
 import API from '../API'
 import MeetingDetails from './MeetingDetails'
+import SuggestedLocation from './SuggestedLocation/SuggestedLocation'
+import EditStartLocation from './EditStartLocation/EditStartLocation'
 import Invitees from './Invitees'
 import Venues from './Venues'
 
@@ -35,76 +37,71 @@ class Meeting extends React.Component {
 
   showMeetingButtons = () => {
     return (
-      <Button.Group>
+      <div className={'submit_card_btn'}>
         {this.state.myInviteStatus === 'accepted' && (
-          <Button
+          <button
             color="orange"
             onClick={() => this.handleAcceptDecline('declined')}
           >
             Decline
-          </Button>
+          </button>
         )}
 
         {this.state.myInviteStatus === 'declined' && (
-          <Button positive onClick={() => this.handleAcceptDecline('accepted')}>
+          <button onClick={() => this.handleAcceptDecline('accepted')}>
             Accept
-          </Button>
+          </button>
         )}
 
         {this.state.myInviteStatus === 'invited' && (
           <React.Fragment>
-            <Button
-              positive
-              onClick={() => this.handleAcceptDecline('accepted')}
-            >
+            <button onClick={() => this.handleAcceptDecline('accepted')}>
               Accept
-            </Button>
-            <Button.Or />
-            <Button
-              negative
+            </button>
+            <button />
+            <button
               color="orange"
               onClick={() => this.handleAcceptDecline('declined')}
             >
               Decline
-            </Button>
+            </button>
           </React.Fragment>
         )}
 
         {this.state.myInviteStatus === 'created' && (
-          <Button negative onClick={this.deleteMeeting}>
-            Delete Event
-          </Button>
+          <button onClick={this.deleteMeeting}>Delete Event</button>
         )}
-      </Button.Group>
+      </div>
     )
   }
   render() {
     const { meeting, email } = this.props
-    let myMeetings = meeting.users.find(u => u.email === email)
+    let myMeetings = meeting.users.find(u => u.email === email) || []
 
     return (
-      <React.Fragment>
-        <Card color="blue" key={meeting.id}>
-          <MeetingDetails
-            key={`${meeting.id}_md`}
-            id={meeting.id}
-            title={meeting.title}
-            date={meeting.date_time}
-            myAddress={myMeetings.start_address}
-            midpoint={meeting.meeting_address}
-            midpointLatitude={meeting.midpoint_latitude}
-            midpointLongitude={meeting.midpoint_longitude}
+      <div className={'meeting_card'}>
+        <MeetingDetails
+          key={`${meeting.id}_md`}
+          title={meeting.title}
+          date={meeting.date_time}
+          midpointLatitude={meeting.midpoint_latitude}
+          midpointLongitude={meeting.midpoint_longitude}
+          midpoint={meeting.meeting_address}
+        />
+        <div className={'card_content'}>
+          <SuggestedLocation midpoint={meeting.meeting_address} />
+          <EditStartLocation
             updateStateOfMeetings={this.props.updateStateOfMeetings}
+            id={meeting.id}
+            myAddress={myMeetings.start_address}
           />
-          <Card.Content>
-            <Invitees email={email} guests={meeting.users} />
+          <Invitees email={email} guests={meeting.users} />
 
-            <Venues venues={meeting.venues} />
-          </Card.Content>
+          <Venues venues={meeting.venues} />
+        </div>
 
-          {this.showMeetingButtons()}
-        </Card>
-      </React.Fragment>
+        {this.showMeetingButtons()}
+      </div>
     )
   }
 }
