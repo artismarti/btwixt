@@ -68,9 +68,9 @@ class UsersController < ApplicationController
 
   def update
     byebug
-    if @user.password == user_params(:currentPassword)
-      byebug
-      @user.update(user_params(:first_name, :last_name, :password => newPassword))
+    if @user.password == BCrypt::Password.create(params[:currentPassword])
+       @user.update(user_params(:first_name, :last_name, :password => newPassword))
+       byebug
       if @user.valid?
        @user.save
         render json: {success: 'User updated.'}
@@ -78,6 +78,9 @@ class UsersController < ApplicationController
         render json: {error: 'Could not update user.'}
       end
     end
+    else 
+      byebug
+      render json: {error: 'Incorrect Password'}
   end
 
 

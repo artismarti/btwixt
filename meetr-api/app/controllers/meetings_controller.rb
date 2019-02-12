@@ -1,7 +1,4 @@
 class MeetingsController < ApplicationController
-  def show
-    # @meeting.get_venues(@meeting.midpoint_latitude,@meeting.midpoint_longitude)
-  end
 
   def destroy
     @meeting = Meeting.find(params["meeting"])
@@ -22,8 +19,7 @@ class MeetingsController < ApplicationController
       first_name: @user.first_name,
       last_name: "Guest").find_or_create_by(
       :email => invitee_email) }
-    # @all_guests = params["invitees"].map{ |invitee_email| User.find_or_create_by(
-    #   :email => invitee_email) }
+ 
     @meeting = Meeting.new(:title => params["title"], 
       :date_time => params["date_time"], 
       # Make  meeting mid point to be same as creators start lat long
