@@ -45,7 +45,6 @@ class ProfileContainer extends React.Component {
           this.setState({
             firstName: data.first_name,
             lastName: data.last_name,
-            currentPassword: data.password,
             id: data.id,
           })
         }
@@ -55,7 +54,7 @@ class ProfileContainer extends React.Component {
 
   render() {
     const { email } = this.props
-    const { firstName, lastName, password } = this.state
+    const { firstName, lastName, currentPassword } = this.state
     return (
       <Container fluid>
         <Form>

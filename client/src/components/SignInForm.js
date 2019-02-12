@@ -48,6 +48,7 @@ class SignInForm extends React.Component {
               <Segment stacked>
                 <Form.Input
                   id="emailInput"
+                  type="email"
                   label="email"
                   value={email}
                   onChange={handleChange}
