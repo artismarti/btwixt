@@ -1,0 +1,10 @@
+.meeting_cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  /* background-image: linear-gradient(
+    to top,
+    rgba(218, 12, 74, 0.7) 10%,
+    rgba(34, 17, 22, 0.5) 55%
+  ); */
+}
