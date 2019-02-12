@@ -27,6 +27,7 @@ class Create extends React.Component {
     title: '',
     date: '',
     time: '',
+    dateTime: '',
     start_address: '',
     invitees: [],
     newInviteeEmail: '',
@@ -37,8 +38,11 @@ class Create extends React.Component {
     API.getContacts().then(data => this.createContacts(data))
   }
 
-  handleChange = event =>
-    this.setState({ [event.target.name]: event.target.value })
+  handleChange = (event, { name, value }) => {
+    if (this.state.hasOwnProperty(name)) {
+      this.setState({ [name]: value })
+    }
+  }
 
   // get lat long from API
   getLatLong(data) {
@@ -70,14 +74,13 @@ class Create extends React.Component {
   }
 
   createNewMeeting() {
-    let date_time = `${this.state.date} ${this.state.time}`
     let meeting = {
       title: this.state.title,
       start_address: this.state.start_address,
       latitude: this.state.latitude,
       longitude: this.state.longitude,
       invitees: [...this.state.invitees, ...this.state.newInvitees],
-      date_time: date_time,
+      date_time: this.state.dateTime,
     }
 
     API.createMeeting(meeting).then(data => {
@@ -193,20 +196,16 @@ class Create extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Field>
-          <Form.Field required width="six">
-            <label>
-              <Icon name="calendar check outline" color="orange" />
-              Event Date:
-            </label>
-            <Input type="date" name="date" onChange={this.handleChange} />
-          </Form.Field>
-          <Form.Field required width="six">
-            <label>
-              <Icon name="clock outline" color="orange" />
-              Event Time:
-            </label>
-            <Input type="time" name="time" onChange={this.handleChange} />
-          </Form.Field>
+
+          <Icon name="calendar check outline" color="orange" />
+          <DateTimeInput
+            label="Event Date & Time:"
+            name="dateTime"
+            placeholder="Select Date and Time"
+            value={this.state.dateTime}
+            iconPosition="left"
+            onChange={this.handleChange}
+          />
           <Form.Field>
             <label>
               <Icon name="users" color="orange" />
