@@ -58,9 +58,9 @@
   position: absolute;
   background-image: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.7) 10%,
-    rgba(0, 0, 0, 0.5) 15%,
-    rgba(0, 0, 0, 0.2)
+    rgba(0, 0, 0, 0.5) 5%,
+    rgba(0, 0, 0, 0.3) 15%,
+    rgba(0, 0, 0, 0.1)
   );
   height: 100%;
   width: 100%;
@@ -108,6 +108,16 @@
 .info_card__header__image_wrapper {
   padding: 0 1em;
   width: 42px;
+}
+
+.vote__image_wrapper {
+  padding: 0 1em;
+  width: 31px;
+}
+
+.status__image_wrapper {
+  padding: 0 1em;
+  width: 34px;
 }
 
 .info_card__header__image_wrapper img {
@@ -291,11 +301,36 @@
   padding: 0.5em 2em;
   border: none;
   border-radius: 4px;
-  background-color: #24c24f;
   color: #e9f3ec;
   transition: 0.2s;
 }
 
 .submit_card_btn button:hover {
   background-color: #198535;
+}
+
+.meeting_card .meeting_button_positive button:hover {
+  background-color: #198535;
+}
+.meeting_card .meeting_button_negative button:hover {
+  background-color: #c55717;
+}
+
+.meeting_card .meeting_button_negative {
+  justify-content: center;
+  background-color: #ff0800;
+  color: #e9f3ec;
+  transition: 0.2s;
+}
+.meeting_card .meeting_button_positive button {
+  justify-content: center;
+  background-color: #24c24f;
+  color: #e9f3ec;
+  transition: 0.2s;
+}
+.meeting_card .meeting_button_warning button {
+  justify-content: center;
+  background-color: #f16423;
+  color: #e9f3ec;
+  transition: 0.2s;
 }
