@@ -8,12 +8,7 @@ import {
   Input,
   List,
 } from 'semantic-ui-react'
-import {
-  DateInput,
-  TimeInput,
-  DateTimeInput,
-  DatesRangeInput,
-} from 'semantic-ui-calendar-react'
+import { DateTimeInput } from 'semantic-ui-calendar-react'
 
 import API from '../API'
 const APP_ID = process.env.REACT_APP_HERE_APP_ID
