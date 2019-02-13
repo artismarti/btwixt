@@ -1,13 +1,5 @@
 import React from 'react'
-import Profile from './Profile'
-import {
-  Container,
-  Form,
-  Input,
-  TextArea,
-  Button,
-  Select,
-} from 'semantic-ui-react'
+import { Container, Form, Input, Button } from 'semantic-ui-react'
 import API from '../API'
 
 class ProfileContainer extends React.Component {
@@ -53,8 +45,7 @@ class ProfileContainer extends React.Component {
   }
 
   render() {
-    const { email } = this.props
-    const { firstName, lastName, currentPassword } = this.state
+    const { firstName, lastName } = this.state
     return (
       <Container fluid>
         <Form>
