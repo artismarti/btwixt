@@ -40,28 +40,33 @@ class Meeting extends React.Component {
       <div className={'submit_card_btn'}>
         {this.state.myInviteStatus === 'accepted' && (
           <button
-            color="orange"
             onClick={() => this.handleAcceptDecline('declined')}
+            className="meeting_button_warning"
           >
             Decline
           </button>
         )}
 
         {this.state.myInviteStatus === 'declined' && (
-          <button onClick={() => this.handleAcceptDecline('accepted')}>
+          <button
+            onClick={() => this.handleAcceptDecline('accepted')}
+            className="meeting_button_positive"
+          >
             Accept
           </button>
         )}
 
         {this.state.myInviteStatus === 'invited' && (
           <React.Fragment>
-            <button onClick={() => this.handleAcceptDecline('accepted')}>
-              Accept
-            </button>
-            <button />
             <button
-              color="orange"
+              onClick={() => this.handleAcceptDecline('accepted')}
+              className="meeting_button_positive"
+            >
+              > Accept
+            </button>
+            <button
               onClick={() => this.handleAcceptDecline('declined')}
+              className="meeting_button_warning"
             >
               Decline
             </button>
@@ -69,7 +74,12 @@ class Meeting extends React.Component {
         )}
 
         {this.state.myInviteStatus === 'created' && (
-          <button onClick={this.deleteMeeting}>Delete Event</button>
+          <button
+            onClick={this.deleteMeeting}
+            className="meeting_button_negative"
+          >
+            Delete Event
+          </button>
         )}
       </div>
     )
