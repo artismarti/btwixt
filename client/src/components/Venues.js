@@ -16,7 +16,7 @@ class Venues extends React.Component {
             className={'info_card__header__image_wrapper'}
             onClick={this.clickViewHandler}
           >
-            <img src={require('../images/venues.svg')} />
+            <img src={require('../images/venues.svg')} alt="Venue icon." />
           </div>
           <p onClick={this.clickViewHandler}>View Venues:</p>
         </div>
@@ -35,11 +35,19 @@ class Venues extends React.Component {
               <div className={'venues__row__vote'}>
                 <p className={'venues__downvote'}>
                   1
-                  <img src="#" />
+                  <img
+                    src={require('../images/like.svg')}
+                    alt="Venue downvote icon."
+                    className={'vote__image_wrapper'}
+                  />
                 </p>
                 <p className={'venues__upvote'}>
                   2
-                  <img src="#" />
+                  <img
+                    src={require('../images/dislike.svg')}
+                    alt="Venue upvote icon."
+                    className={'vote__image_wrapper'}
+                  />
                 </p>
               </div>
             </div>
