@@ -2,7 +2,6 @@ import React from 'react'
 import Meeting from './Meeting'
 // import { Container, Card } from 'semantic-ui-react'
 import './MeetingsContainer.css'
-import { SSL_OP_LEGACY_SERVER_CONNECT } from 'constants'
 
 class MeetingsContainer extends React.Component {
   state = {
