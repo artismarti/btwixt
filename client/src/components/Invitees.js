@@ -10,22 +10,52 @@ class Invitees extends React.Component {
 
   iconSelector = status => {
     let imgUrl = ''
-    // switch (status) {
-    //   case 'invited':
-    //     return <List.Icon name="help circle" color="grey" />
-    //     break
-    //   case 'accepted':
-    //     return <List.Icon name="thumbs up outline" color="green" />
-    //     break
-    //   case 'declined':
-    //     return <List.Icon name="thumbs down outline" color="red" />
-    //     break
-    //   case 'created':
-    //     return <List.Icon name="user circle" color="blue" />
-    //     break
-    //   default:
-    //     return <List.Icon name="help" color="red" />
-    // }
+    switch (status) {
+      case 'invited':
+        return (
+          <img
+            src={require('../images/pending.svg')}
+            alt="Venue upvote icon."
+            className={'status__image_wrapper'}
+          />
+        )
+        break
+      case 'accepted':
+        return (
+          <img
+            src={require('../images/accepted.svg')}
+            alt="Venue upvote icon."
+            className={'status__image_wrapper'}
+          />
+        )
+        break
+      case 'declined':
+        return (
+          <img
+            src={require('../images/declined.svg')}
+            alt="Venue upvote icon."
+            className={'status__image_wrapper'}
+          />
+        )
+        break
+      case 'created':
+        return (
+          <img
+            src={require('../images/venues.svg')}
+            alt="Venue upvote icon."
+            className={'status__image_wrapper'}
+          />
+        )
+        break
+      default:
+        return (
+          <img
+            src={require('../images/pending.svg')}
+            alt="Venue upvote icon."
+            className={'status__image_wrapper'}
+          />
+        )
+    }
 
     return imgUrl
   }
@@ -38,7 +68,7 @@ class Invitees extends React.Component {
             className={'info_card__header__image_wrapper'}
             onClick={this.clickViewHandler}
           >
-            <img src={require('../images/invitees.svg')} />
+            <img src={require('../images/invitees.svg')} alt="Invitees icon." />
           </div>
           <p className={'view-invitees'} onClick={this.clickViewHandler}>
             View Invitees:
@@ -46,7 +76,7 @@ class Invitees extends React.Component {
         </div>
         <div className={'invitees__table'}>
           <div className={'invitees__table__header'}>
-            <div className={'invitee_cell'}>Status</div>
+            <div className={'invitee_cell'} />
             <div className={'invitee_cell'}>Name</div>
             <div className={'invitee_cell'}>Start Address</div>
           </div>
@@ -56,7 +86,8 @@ class Invitees extends React.Component {
               .map(g => (
                 <div className={'invitee_row'} key={g.id}>
                   <div className={'invitee_cell'}>
-                    <img src={this.iconSelector(g.user_status)} />
+                    {this.iconSelector(g.user_status)}
+
                     {g.user_status}
                   </div>
                   <div className={'invitee_cell'}>

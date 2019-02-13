@@ -45,7 +45,10 @@ export default class SuggestedLocation extends React.Component {
             className={'info_card__header__image_wrapper'}
             onClick={this.clickEditHandler}
           >
-            <img src={require('../../images/edit.svg')} />
+            <img
+              src={require('../../images/edit.svg')}
+              alt="Start Location icon."
+            />
           </div>
           <p>{this.props.myAddress}</p>
         </div>
