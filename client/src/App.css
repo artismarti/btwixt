@@ -2,8 +2,17 @@
   box-sizing: border-box;
 }
 
+body {
+  /* background-image: linear-gradient(
+    to right,
+    rgba(31, 44, 44, 0.7) 10%,
+    rgba(57, 79, 79, 0.5) 55%
+  ); */
+  background-color: #1d212c;
+  /* Standard syntax (must be last) */
+  height: auto;
+}
 .App-header {
-  background-color: black;
   min-height: 10vh;
   display: flex;
   flex-direction: column;
@@ -14,10 +23,5 @@
 }
 
 .App-link {
-  color: #61dafb;
-}
-
-.header {
-  font-size: calc(1px + 2vmin);
-  color: white;
+  color: #38137c;
 }
