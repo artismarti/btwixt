@@ -62,8 +62,9 @@ class Meeting extends React.Component {
               onClick={() => this.handleAcceptDecline('accepted')}
               className="meeting_button_positive"
             >
-              > Accept
+              Accept
             </button>
+            or
             <button
               onClick={() => this.handleAcceptDecline('declined')}
               className="meeting_button_warning"
