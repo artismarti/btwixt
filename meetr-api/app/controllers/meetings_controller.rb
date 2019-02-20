@@ -17,7 +17,8 @@ class MeetingsController < ApplicationController
     # Get or create all guests:
     @all_guests = params["invitees"].map{ |invitee_email| User.create_with(
       first_name: @user.first_name,
-      last_name: "Guest").find_or_create_by(
+      last_name: "Guest",
+      guest: true).find_or_create_by(
       :email => invitee_email) }
  
     @meeting = Meeting.new(:title => params["title"], 
