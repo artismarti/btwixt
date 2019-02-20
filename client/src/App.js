@@ -7,7 +7,9 @@ import MeetingsContainer from './components/MeetingsContainer'
 import ProfileContainer from './components/ProfileContainer'
 import HomePage from './components/HomePage'
 import PageNotFound from './components/PageNotFound'
+import SignUp from './components/SignUp'
 import Create from './components/Create'
+import Loading from './components/Loading'
 import './App.css'
 import API from './API'
 
@@ -83,7 +85,7 @@ class App extends Component {
     // Validate user
     API.validate().then(data => {
       if (data.error) {
-        history.push('/')
+        history.push('/loading')
       } else {
         signin(data.user.email, data.token)
         this.setState({
@@ -91,7 +93,7 @@ class App extends Component {
           firstName: data.user.first_name,
           lastName: data.user.last_name,
         })
-        this.getMeetings()
+        history.push('/loading')
       }
     })
   }
@@ -147,6 +149,16 @@ class App extends Component {
                 getMeetings={getMeetings}
               />
             )}
+          />
+          <Route
+            path="/signup"
+            component={routerProps => (
+              <SignUp {...routerProps} signin={signin} />
+            )}
+          />
+          <Route
+            path="/loading"
+            component={routerProps => <Loading {...routerProps} />}
           />
 
           <Route component={PageNotFound} />
