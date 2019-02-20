@@ -3,6 +3,7 @@ class API {
     // TODO: Make sure URL is correct
     this.baseURL = 'http://localhost:3000'
     this.signinURL = this.baseURL + '/signin'
+    this.signupURL = this.baseURL + '/signup'
     this.validateURL = this.baseURL + '/validate'
     this.meetingsURL = this.baseURL + '/mymeetings'
     this.contactsURL = this.baseURL + '/mycontacts'
@@ -16,6 +17,13 @@ class API {
 
   static signin(user) {
     return fetch(this.signinURL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    }).then(response => response.json())
+  }
+  static signup(user) {
+    return fetch(this.signupURL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
