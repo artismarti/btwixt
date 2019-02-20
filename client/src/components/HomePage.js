@@ -4,19 +4,16 @@ import { Carousel, Image } from 'react-bootstrap/'
 const HomePage = props => (
   <Carousel fade keyboard>
     <Carousel.Item>
+      <Carousel.Caption>
+        <h3>Meet in the middle</h3>
+        <p />
+      </Carousel.Caption>
       <Image
         className="d-block w-100"
         src="https://images.unsplash.com/photo-1462536943532-57a629f6cc60?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60"
         alt="First slide"
         fluid
       />
-      <Carousel.Caption>
-        <h3>Meet in the middle</h3>
-        <p>
-          bTwixt makes it easy to decide where to meet friends starting off from
-          different locations.
-        </p>
-      </Carousel.Caption>
     </Carousel.Item>
     <Carousel.Item>
       <img
@@ -38,6 +35,7 @@ const HomePage = props => (
         className="d-block w-100"
         src="https://images.unsplash.com/photo-1496275068113-fff8c90750d1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
         alt="Third slide"
+        size="medium"
       />
 
       <Carousel.Caption>
