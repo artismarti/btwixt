@@ -35,6 +35,21 @@ class UsersController < ApplicationController
     end
   end
 
+  def signup
+    @user = User.find_or_create_by(email: params[:email])
+  
+    if !@user.password 
+      @user.update(first_name: params[:firstName], last_name: params[:lastName], password: params[:password], guest: false)
+    else
+      render json: {error: 'User already exists'}, status: 401
+    end
+    if @user
+        render json: {token: issue_token({id: @user.id}) }
+    else
+      render json: {error: 'User not created'}, status: 404
+    end
+  end
+
   def validate
     @user = current_user
     if @user
@@ -48,7 +63,6 @@ class UsersController < ApplicationController
   # Get all meeting & user details for all meetings of current user
   def get_meetings
     @user = current_user
-    @meetings = @user.meetings
     if @user
       render json: @meetings, each_serializer: MeetingsInfoSerializer
     else
@@ -67,10 +81,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    byebug
     if @user.password == BCrypt::Password.create(params[:currentPassword])
        @user.update(user_params(:first_name, :last_name, :password => newPassword))
-       byebug
+       
       if @user.valid?
        @user.save
         render json: {success: 'User updated.'}
@@ -79,7 +92,6 @@ class UsersController < ApplicationController
       end
     end
     else 
-      byebug
       render json: {error: 'Incorrect Password'}
   end
 
