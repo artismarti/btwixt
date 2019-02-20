@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   # redirect signin to users/signin
   post 'signin', to: 'users#signin'
 
+  # redirect signin to users/signup
+  post 'signup', to: 'users#signup'
+
   # validate users
   get 'validate', to: 'users#validate'
 
