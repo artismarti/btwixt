@@ -15,7 +15,7 @@ class Invitees extends React.Component {
         return (
           <img
             src={require('../images/pending.svg')}
-            alt="Venue upvote icon."
+            alt="Pending icon."
             className={'status__image_wrapper'}
           />
         )
@@ -24,7 +24,7 @@ class Invitees extends React.Component {
         return (
           <img
             src={require('../images/accepted.svg')}
-            alt="Venue upvote icon."
+            alt="Accepted icon."
             className={'status__image_wrapper'}
           />
         )
@@ -33,7 +33,7 @@ class Invitees extends React.Component {
         return (
           <img
             src={require('../images/declined.svg')}
-            alt="Venue upvote icon."
+            alt="Declined icon."
             className={'status__image_wrapper'}
           />
         )
@@ -41,8 +41,8 @@ class Invitees extends React.Component {
       case 'created':
         return (
           <img
-            src={require('../images/venues.svg')}
-            alt="Venue upvote icon."
+            src={require('../images/crown.svg')}
+            alt="Creator icon."
             className={'status__image_wrapper'}
           />
         )
