@@ -19,17 +19,24 @@ class Header extends Component {
     const { email, signout, userName, showProfile } = this.props
     return (
       <header className="App-header">
-        <Navbar fixed="top" bg="warning" variant="dark">
+        <Navbar fixed="top" variant="dark">
           <Navbar.Brand href="#home">bTwixt</Navbar.Brand>
           <Link to="/signin">
-            <Button>Sign In</Button>
+            <Button basic inverted color="green">
+              Sign In
+            </Button>
+          </Link>
+          <Link to="/signup">
+            <Button basic inverted color="black">
+              Sign Up
+            </Button>
           </Link>
         </Navbar>
         <br />
         {email && (
           <>
             <Navbar fixed="top" bg="dark" expand="lg" variant="dark">
-              <Navbar.Brand href="#home">bTwixt</Navbar.Brand>
+              <Navbar.Brand href="/meetings">bTwixt</Navbar.Brand>
 
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
@@ -83,7 +90,9 @@ class Header extends Component {
                     `Welcome to bTw📍xt.`
                   )}
                 </Navbar.Text>
-                <Button onClick={signout}>SIGN OUT</Button>
+                <Button basic inverted onClick={signout}>
+                  SIGN OUT
+                </Button>
               </Navbar.Collapse>
             </Navbar>
           </>
