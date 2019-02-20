@@ -9,10 +9,10 @@
   overflow: hidden;
   /* background-image: linear-gradient(
     to top,
-    rgba(185, 14, 66, 0.7) 10%,
-    rgba(104, 7, 36, 0.5) 55%
+    rgba(29, 15, 19, 0.7) 10%,
+    rgba(54, 56, 51, 0.5) 55%
   ); */
-  background-color: #eee;
+  background-color: #363b47;
 }
 
 .location_details {
@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   position: absolute;
-  background-color: #fff;
+  color: #b7b7b7;
   z-index: 10;
   min-height: 5em;
   width: 280px;
@@ -40,6 +40,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 0.8em;
+  background-color: #363b47;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -196,6 +197,7 @@
 .invitees {
   font-size: 0.8em;
 }
+
 .invitees__table {
   width: 100%;
   height: 0;
@@ -322,13 +324,13 @@
   color: #e9f3ec;
   transition: 0.2s;
 }
-.meeting_card .meeting_button_positive button {
+.meeting_button_positive {
   justify-content: center;
   background-color: #24c24f;
   color: #e9f3ec;
   transition: 0.2s;
 }
-.meeting_card .meeting_button_warning button {
+.meeting_button_warning {
   justify-content: center;
   background-color: #f16423;
   color: #e9f3ec;
