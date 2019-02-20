@@ -163,7 +163,7 @@ class Create extends React.Component {
     return newInvitees.length > 0 ? (
       newInvitees.map(ni => <List.Item icon="users" content={ni} />)
     ) : (
-      <List.Item icon="users" content={'Add New Invitees'} />
+      <List.Item icon="users" content={'Add New Invitees'} inverted />
     )
   }
 
@@ -171,13 +171,14 @@ class Create extends React.Component {
     const { contacts } = this.state
     return (
       <Card.Group centered>
-        <Form size="large">
+        <Form size="large" inverted>
           <Form.Field required width="six">
             <Input
               label="Title:"
               placeholder=""
               name="title"
               onChange={this.handleChange}
+              inverted
             />
           </Form.Field>
           <Form.Field required width="six">
@@ -224,7 +225,7 @@ class Create extends React.Component {
               New Invitee(s):
             </label>
           </Form.Field>
-          <List>{this.displayNewInviteesList()}</List>
+          <List inverted>{this.displayNewInviteesList()}</List>
           <Input
             type="text"
             name="newInvitees"
