@@ -19,8 +19,12 @@ class MeetingsInfoSerializer < ActiveModel::Serializer
     response_hash["Response"]["View"][0]["Result"][0]["Location"]["Address"]["Label"]
   end
 
+  def user_meetings
+    object.user_meetings
+  end
+
   def venues
-    meeting_venue = object.get_venues(object.midpoint_latitude,object.midpoint_longitude)
+    meeting_venue = self.object.meeting_venues
     meeting_venue.map { |mv|
       {
         id: mv.venue.id,
@@ -32,7 +36,7 @@ class MeetingsInfoSerializer < ActiveModel::Serializer
   end
 
   def users
-    object.user_meetings.map { |um|
+    user_meetings.map { |um|
       {
         first_name: um.user.first_name, 
         last_name: um.user.last_name, 
@@ -48,7 +52,7 @@ class MeetingsInfoSerializer < ActiveModel::Serializer
   end
 
   def my_status
-    object.user_meetings.select { |um| um.user.id == current_user.id}
+    user_meetings.select { |um| um.user.id == current_user.id}
     .map{|um| um.user_status}.join
   end 
 
