@@ -77,7 +77,7 @@ class SignInForm extends React.Component {
               </Segment>
             </Form>
             <Message>
-              New to bTwixt? <a href="#">Sign Up</a>
+              New to bTwixt? <a href="/signup">Sign Up</a>
             </Message>
           </Grid.Column>
         </Grid>
