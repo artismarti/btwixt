@@ -63,6 +63,7 @@ class UsersController < ApplicationController
   # Get all meeting & user details for all meetings of current user
   def get_meetings
     @user = current_user
+    @meetings = @user.meetings.includes(:user_meetings, :meeting_venues, :venues, :users)
     if @user
       render json: @meetings, each_serializer: MeetingsInfoSerializer
     else
