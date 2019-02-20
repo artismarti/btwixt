@@ -7,17 +7,21 @@ class Meeting < ApplicationRecord
   validates :title, presence: true
 
   def get_venues(lat,lng)
+    # if the midpoint is unchanged AND there are already venues, return early
+    if lat == self.midpoint_latitude && lng == self.midpoint_longitude && !self.meeting_venues.count.zero?
+      return
+    end
+    # otherwise get venues
     url = "https://places.cit.api.here.com/places/v1/browse?at=#{lat}%2C#{lng}%3Br%3D100&cat=restaurant&Accept-Language=en-GB%2Cen-US%3Bq%3D0.9%2Cen%3Bq%3D0.8&app_id=#{ENV["REACT_APP_HERE_APP_ID"]}&app_code=#{ENV["REACT_APP_HERE_APP_CODE"]}&size=5"
     response_string = RestClient.get(url)
     response_hash = JSON.parse(response_string)
-    meeting_venues = response_hash["results"]["items"]
-    self.meeting_venues.each {|mv| mv.destroy}
-    meeting_venues.map do |mv|
+    new_meeting_venues = response_hash["results"]["items"]
+    self.meeting_venues.destroy_all
+    new_meeting_venues.map do |mv|
       mv["vicinity"] = mv["vicinity"].gsub("<br/>", "+")
-      new_venue = Venue.create(name: mv["title"], address:  mv["vicinity"], category: mv["category"]["id"])
+     new_venue =  Venue.find_or_create_by(name: mv["title"], address:  mv["vicinity"], category: mv["category"]["id"])
       MeetingVenue.create(venue_id: new_venue.id, meeting_id: self.id, selected: false)
     end
-
   end
 
   def get_address(lat,lng)
